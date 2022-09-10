@@ -7771,10 +7771,10 @@ tslib@^1.7.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
 
-tslint-config-fiuba-course-admin@1.0.9:
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/tslint-config-fiuba-course-admin/-/tslint-config-fiuba-course-admin-1.0.9.tgz#6a123f26e0e682b8a3d147cc8d291905973cdad4"
-  integrity sha512-i9ZsxU395rLlRIvtvm1bp9hBO7IGjqAp2sxhWIrU1YjHGUhpvKQ+V3rDcxh/VJ3Zv2uQuP4Sgl5zi8mvOpa+yw==
+tslint-config-fiuba-course-admin@1.0.11:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/tslint-config-fiuba-course-admin/-/tslint-config-fiuba-course-admin-1.0.11.tgz#78b2e4f35ae9bf7341a854f4c8a26357f3f3159d"
+  integrity sha512-fRMKsDnYOZMuqBx427wQVc1BjT29AnAJlV4oZXxF4Qn6fqTZmYSuYuyCYL/Dxs6w0/aClmKvqmmUNX/33Y7+cg==
   dependencies:
     eslint ">= 5"
     tslint "5.20.1"
@@ -8091,10 +8091,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validations-fiuba-course-admin@1.0.37:
-  version "1.0.37"
-  resolved "https://registry.yarnpkg.com/validations-fiuba-course-admin/-/validations-fiuba-course-admin-1.0.37.tgz#eb1444b35969f7fbb21d1d8f593392a70a904d7d"
-  integrity sha512-5XcFD7Z0d3WJ/fWeN4lfzHqKy157EOxneYS83g6aWn1hQ1cBPS+QlY9td8KmccnDm/X+pLKQ/dX3PjsKtpCBkA==
+validations-fiuba-course-admin@1.0.38:
+  version "1.0.38"
+  resolved "https://registry.yarnpkg.com/validations-fiuba-course-admin/-/validations-fiuba-course-admin-1.0.38.tgz#a0f60bdc1cc8ccf38fe82989972a71dad636501e"
+  integrity sha512-RxJ4fQIJUN0pYw8wc+W/kEuuYiJ5OXjh0iX8b2HI+8O2bZPBC63DdWo32po63yiAArMAH0fwL5cfI7N4pBzPdg==
   dependencies:
     "@types/bluebird" "3.5.29"
     "@types/node" "13.1.4"
