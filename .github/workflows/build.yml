@@ -41,6 +41,6 @@ jobs:
         uses: peter-evans/repository-dispatch@v1
         with:
           token: ${{ secrets.REPOSITORY_DISPATCH_TOKEN }}
-          repository: fiuba-laboral-v2/deploy
+          repository: fiuba-course-admin/deploy
           event-type: deploy
           client-payload: '{"stage": "${{ github.ref }}", "project": "backend"}'

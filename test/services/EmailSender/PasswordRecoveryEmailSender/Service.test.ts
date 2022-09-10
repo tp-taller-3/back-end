@@ -34,7 +34,7 @@ describe("PasswordRecoveryEmailSender", () => {
             receiverEmails: [companyUser.email],
             sender: {
               email: "no-reply@fi.uba.ar",
-              name: "[No responder] Bolsa de Trabajo FIUBA"
+              name: "[No responder] Administrador de Cursos"
             },
             subject: "Recuperación de contraseña",
             body:

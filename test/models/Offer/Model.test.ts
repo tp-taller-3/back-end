@@ -10,7 +10,7 @@ import {
   NumberIsTooSmallError,
   SalaryRangeError,
   StringIsTooLargeError
-} from "validations-fiuba-laboral-v2";
+} from "validations-fiuba-course-admin";
 import { ValidationError } from "sequelize";
 
 import { Admin, Offer } from "$models";

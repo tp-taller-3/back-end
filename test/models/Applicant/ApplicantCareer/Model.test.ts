@@ -1,5 +1,5 @@
 import { ApplicantCareer } from "$models";
-import { NumberIsTooLargeError, NumberIsTooSmallError } from "validations-fiuba-laboral-v2";
+import { NumberIsTooLargeError, NumberIsTooSmallError } from "validations-fiuba-course-admin";
 import { ValidationError } from "sequelize";
 import {
   ForbiddenApprovedSubjectCountError,

@@ -4,7 +4,7 @@ import { AttributeNotDefinedError } from "$models/Errors";
 import {
   PasswordWithoutDigitsError,
   PasswordWithoutUppercaseError
-} from "validations-fiuba-laboral-v2";
+} from "validations-fiuba-course-admin";
 
 describe("CompanyUserRawCredentials", () => {
   const mandatoryAttributes = {

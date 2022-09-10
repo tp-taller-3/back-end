@@ -1,5 +1,5 @@
 import { ValidationError } from "sequelize";
-import { InvalidEmailError, InvalidFiubaEmailError } from "validations-fiuba-laboral-v2";
+import { InvalidEmailError, InvalidFiubaEmailError } from "validations-fiuba-course-admin";
 
 import { SecretarySettings } from "$models";
 import { Secretary } from "$models/Admin";

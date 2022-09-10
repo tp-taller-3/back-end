@@ -1,11 +1,11 @@
-# Bolsa de Trabajo FIUBA: back-end
+# Administrador de Cursos: back-end
 
 Trabajo Práctico Profesional, FIUBA, 2020
 
 **Staging:**
 
-- **Build:** ![Build status](https://github.com/fiuba-laboral-v2/back-end/workflows/back-end-build/badge.svg)
-- **Coverage:** [![Coverage Status](https://coveralls.io/repos/github/fiuba-laboral-v2/back-end/badge.svg)](https://coveralls.io/github/fiuba-laboral-v2/back-end)
+- **Build:** ![Build status](https://github.com/fiuba-course-admin/back-end/workflows/back-end-build/badge.svg)
+- **Coverage:** [![Coverage Status](https://coveralls.io/repos/github/fiuba-course-admin/back-end/badge.svg)](https://coveralls.io/github/fiuba-course-admin/back-end)
 - **URL:** http://antiguos.fi.uba.ar/graphql/
 
 ## Comandos de yarn

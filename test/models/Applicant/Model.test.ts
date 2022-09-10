@@ -2,7 +2,7 @@ import { ValidationError } from "sequelize";
 import { UUID } from "$models/UUID";
 import { Applicant, JobApplication, Offer } from "$models";
 import { ApprovalStatus } from "$models/ApprovalStatus";
-import { NumberIsTooSmallError } from "validations-fiuba-laboral-v2";
+import { NumberIsTooSmallError } from "validations-fiuba-course-admin";
 import { UUID_REGEX } from "../index";
 import { isApprovalStatus } from "$models/SequelizeModelValidators";
 import { OfferGenerator } from "$generators/Offer";

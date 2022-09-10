@@ -18,7 +18,7 @@ import {
 import { BOOLEAN, HasOneGetAssociationMixin, INTEGER, STRING, UUID } from "sequelize";
 import { isUuid, optional } from "$models/SequelizeModelValidators";
 import { Nullable } from "$models/SequelizeModel";
-import { validateCareerYear, validateIntegerInRange } from "validations-fiuba-laboral-v2";
+import { validateCareerYear, validateIntegerInRange } from "validations-fiuba-course-admin";
 
 @Table({
   tableName: "ApplicantCareers",

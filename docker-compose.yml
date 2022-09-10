@@ -1,21 +1,21 @@
 version: "3.4"
 services:
-  fiuba-laboral-v2-backend:
+  fiuba-course-admin-backend:
     network_mode: host
     build: .
     command: yarn pm2:start
-    image: fiuba-laboral-v2-backend-img
-    container_name: "fiuba-laboral-v2-backend"
+    image: fiuba-course-admin-backend-img
+    container_name: "fiuba-course-admin-backend"
     env_file:
       - .env
     ports:
       - 5006:5006
     restart: always
     depends_on:
-      - fiuba-laboral-v2-backend-database-postgres
-  fiuba-laboral-v2-backend-database-postgres:
+      - fiuba-course-admin-backend-database-postgres
+  fiuba-course-admin-backend-database-postgres:
     image: postgres:12.1
-    container_name: fiuba-laboral-v2-backend-database-postgres
+    container_name: fiuba-course-admin-backend-database-postgres
     volumes:
       - ./data/db:/usr/data/db
     ports:

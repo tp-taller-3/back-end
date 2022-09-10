@@ -2,7 +2,7 @@ import { Column, Is, Model, Table } from "sequelize-typescript";
 import { ENUM, INTEGER, TEXT, BOOLEAN } from "sequelize";
 import { Secretary, SecretaryEnumValues } from "$models/Admin/Interface";
 import { isSecretary } from "../SequelizeModelValidators";
-import { validateIntegerInRange, validateFiubaEmail } from "validations-fiuba-laboral-v2";
+import { validateIntegerInRange, validateFiubaEmail } from "validations-fiuba-course-admin";
 
 @Table({ tableName: "SecretarySettings", timestamps: false })
 export class SecretarySettings extends Model<SecretarySettings> {

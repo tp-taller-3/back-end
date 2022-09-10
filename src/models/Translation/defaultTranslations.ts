@@ -1,6 +1,6 @@
 export const defaultTranslations = {
   titleBar: {
-    title: "Bolsa de trabajo FIUBA"
+    title: "Administrador de Cursos"
   },
   changeCurrentRoleButton: {
     enterAsAdmin: "Navegar como Admin",

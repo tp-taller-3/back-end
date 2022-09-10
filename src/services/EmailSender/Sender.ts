@@ -14,6 +14,6 @@ export const Sender = {
   },
   noReply: () => ({
     email: "no-reply@fi.uba.ar",
-    name: "[No responder] Bolsa de Trabajo FIUBA"
+    name: "[No responder] Administrador de Cursos"
   })
 };

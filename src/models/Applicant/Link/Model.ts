@@ -1,6 +1,6 @@
 import { BelongsTo, Column, ForeignKey, Is, Model, PrimaryKey, Table } from "sequelize-typescript";
 import { Applicant } from "../..";
-import { validateURL } from "validations-fiuba-laboral-v2";
+import { validateURL } from "validations-fiuba-course-admin";
 import { STRING, UUID } from "sequelize";
 
 @Table({ tableName: "ApplicantsLinks" })

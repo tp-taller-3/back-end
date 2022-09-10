@@ -2,7 +2,7 @@ import { ValidationError } from "sequelize";
 import { UUID } from "$models/UUID";
 import { UserSequelizeModel } from "$models";
 import { MissingDniError } from "$models/User/Errors";
-import { InvalidEmailError, NameWithDigitsError } from "validations-fiuba-laboral-v2";
+import { InvalidEmailError, NameWithDigitsError } from "validations-fiuba-course-admin";
 import { DniGenerator } from "$generators/DNI";
 import { omit } from "lodash";
 

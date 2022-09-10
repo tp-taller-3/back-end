@@ -10,7 +10,7 @@ import {
   NameWithDigitsError,
   WrongLengthCuitError,
   StringIsTooLargeError
-} from "validations-fiuba-laboral-v2";
+} from "validations-fiuba-course-admin";
 import { CuitGenerator } from "$generators/Cuit";
 
 describe("Company", () => {

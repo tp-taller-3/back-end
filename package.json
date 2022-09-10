@@ -63,7 +63,7 @@
     "sequelize-typescript": "1.1.0",
     "typescript-logging": "0.6.4",
     "uuid": "8.3.1",
-    "validations-fiuba-laboral-v2": "1.0.37"
+    "validations-fiuba-course-admin": "1.0.37"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",
@@ -84,7 +84,7 @@
     "ts-node": "8.5.4",
     "tsconfig-paths": "3.9.0",
     "tslint": "5.18.0",
-    "tslint-config-fiuba-laboral-v2": "1.0.9",
+    "tslint-config-fiuba-course-admin": "1.0.9",
     "tslint-config-prettier": "1.18.0",
     "tslint-plugin-prettier": "2.3.0",
     "typescript": "3.7.4"
@@ -131,19 +131,19 @@
     "db:all:reboot": "yarn db:drop && yarn db:test:drop && yarn db:create && yarn db:test:create && yarn db:all:migrate && yarn db:seed:all:development",
     "db:reboot": "yarn db:drop && yarn db:create  && yarn db:migrate && yarn db:seed:all:development",
     "pm2:start": "yarn build && pm2 startOrRestart --no-daemon config/process.yml",
-    "db:start": "docker-compose up -d fiuba-laboral-v2-backend-database-postgres",
-    "db:up": "docker-compose up fiuba-laboral-v2-backend-database-postgres",
-    "db:stop": "docker-compose stop fiuba-laboral-v2-backend-database-postgres"
+    "db:start": "docker-compose up -d fiuba-course-admin-backend-database-postgres",
+    "db:up": "docker-compose up fiuba-course-admin-backend-database-postgres",
+    "db:stop": "docker-compose stop fiuba-course-admin-backend-database-postgres"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fiuba-laboral-v2/back-end.git"
+    "url": "git+https://github.com/fiuba-course-admin/back-end.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://fiuba-laboral-v2.atlassian.net"
+    "url": "https://fiuba-course-admin.atlassian.net"
   },
-  "homepage": "https://github.com/fiuba-laboral-v2/back-end#readme",
+  "homepage": "https://github.com/fiuba-course-admin/back-end#readme",
   "husky": {
     "hooks": {
       "pre-commit": "yarn check-unstaged && yarn lint && yarn test"

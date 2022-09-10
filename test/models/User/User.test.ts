@@ -11,7 +11,7 @@ import {
   EmptyNameError,
   InvalidEmailError,
   StringIsTooLargeError
-} from "validations-fiuba-laboral-v2";
+} from "validations-fiuba-course-admin";
 import { DniGenerator } from "$generators/DNI";
 
 describe("User", () => {

@@ -9,7 +9,7 @@ import {
   Table
 } from "sequelize-typescript";
 import { ENUM, HasManyGetAssociationsMixin, INTEGER, TEXT, UUID, UUIDV4 } from "sequelize";
-import { validateIntegerInRange } from "validations-fiuba-laboral-v2";
+import { validateIntegerInRange } from "validations-fiuba-course-admin";
 import {
   ApplicantApprovalEvent,
   ApplicantCapability,

@@ -7771,9 +7771,9 @@ tslib@^1.7.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.13.0.tgz#c881e13cc7015894ed914862d276436fa9a47043"
   integrity sha512-i/6DQjL8Xf3be4K/E6Wgpekn5Qasl1usyw++dAA35Ue5orEn65VIxOA+YvNNl9HV3qv70T7CNwjODHZrLwvd1Q==
 
-tslint-config-fiuba-laboral-v2@1.0.9:
+tslint-config-fiuba-course-admin@1.0.9:
   version "1.0.9"
-  resolved "https://registry.yarnpkg.com/tslint-config-fiuba-laboral-v2/-/tslint-config-fiuba-laboral-v2-1.0.9.tgz#6a123f26e0e682b8a3d147cc8d291905973cdad4"
+  resolved "https://registry.yarnpkg.com/tslint-config-fiuba-course-admin/-/tslint-config-fiuba-course-admin-1.0.9.tgz#6a123f26e0e682b8a3d147cc8d291905973cdad4"
   integrity sha512-i9ZsxU395rLlRIvtvm1bp9hBO7IGjqAp2sxhWIrU1YjHGUhpvKQ+V3rDcxh/VJ3Zv2uQuP4Sgl5zi8mvOpa+yw==
   dependencies:
     eslint ">= 5"
@@ -8091,9 +8091,9 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validations-fiuba-laboral-v2@1.0.37:
+validations-fiuba-course-admin@1.0.37:
   version "1.0.37"
-  resolved "https://registry.yarnpkg.com/validations-fiuba-laboral-v2/-/validations-fiuba-laboral-v2-1.0.37.tgz#eb1444b35969f7fbb21d1d8f593392a70a904d7d"
+  resolved "https://registry.yarnpkg.com/validations-fiuba-course-admin/-/validations-fiuba-course-admin-1.0.37.tgz#eb1444b35969f7fbb21d1d8f593392a70a904d7d"
   integrity sha512-5XcFD7Z0d3WJ/fWeN4lfzHqKy157EOxneYS83g6aWn1hQ1cBPS+QlY9td8KmccnDm/X+pLKQ/dX3PjsKtpCBkA==
   dependencies:
     "@types/bluebird" "3.5.29"

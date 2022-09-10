@@ -26,7 +26,7 @@ export const FrontendConfig: IFrontendConfig = {
   },
   staging: {
     baseUrl: "http://antiguos.fi.uba.ar",
-    subDomain: "laboral/#",
+    subDomain: "course-admin/#",
     endpoints
   },
   development: {

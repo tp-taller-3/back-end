@@ -1,6 +1,6 @@
 import { isNil } from "lodash";
 import { AttributeNotDefinedError } from "$models/Errors";
-import { validatePassword } from "validations-fiuba-laboral-v2";
+import { validatePassword } from "validations-fiuba-course-admin";
 import { PasswordEncryptor } from "$libs/PasswordEncryptor";
 import { CompanyUserCredentials } from "../Model";
 

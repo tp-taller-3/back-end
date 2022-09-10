@@ -26,7 +26,7 @@ import {
   validateIntegerInRange,
   validateSalaryRange,
   validateStringLength
-} from "validations-fiuba-laboral-v2";
+} from "validations-fiuba-course-admin";
 import { ApprovalStatus, approvalStatuses } from "$models/ApprovalStatus";
 import { isApprovalStatus, isTargetApplicantType } from "$models/SequelizeModelValidators";
 import { ApplicantType, targetApplicantTypeEnumValues } from "$models/Applicant";

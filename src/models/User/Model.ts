@@ -2,7 +2,7 @@ import { Column, Table } from "sequelize-typescript";
 import { TEXT } from "sequelize";
 import { SequelizeModel, Nullable } from "$models/SequelizeModel";
 import { MissingDniError } from "./Errors";
-import { validateEmail, validateName } from "validations-fiuba-laboral-v2";
+import { validateEmail, validateName } from "validations-fiuba-course-admin";
 
 @Table({
   tableName: "Users",

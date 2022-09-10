@@ -1,5 +1,5 @@
 import { UniqueConstraintError, ValidationError } from "sequelize";
-import { InvalidCuitError } from "validations-fiuba-laboral-v2";
+import { InvalidCuitError } from "validations-fiuba-course-admin";
 import { Company } from "$models";
 import { CompanyNotFoundError } from "$models/Company/Errors";
 import { UserRepository, User } from "$models/User";

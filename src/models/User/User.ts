@@ -3,7 +3,7 @@ import { ICredentials } from "./Interface";
 import { Nullable } from "$models/SequelizeModel";
 import { UUID } from "$models/UUID";
 import { isNil } from "lodash";
-import { validateEmail, validateName } from "validations-fiuba-laboral-v2";
+import { validateEmail, validateName } from "validations-fiuba-course-admin";
 
 export class User {
   public uuid: Nullable<string>;

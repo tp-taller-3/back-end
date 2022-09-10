@@ -17,7 +17,7 @@ import {
   validateEmail,
   validateName,
   validateURL
-} from "validations-fiuba-laboral-v2";
+} from "validations-fiuba-course-admin";
 import { isNotEmptyString } from "../SequelizeModelValidators";
 
 @Table({ tableName: "Companies", timestamps: true })
