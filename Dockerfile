@@ -1,4 +1,4 @@
-FROM node:14.17.0
+FROM node:14.20.0
 ADD . /usr/src/app
 WORKDIR /usr/src/app
 COPY . ./

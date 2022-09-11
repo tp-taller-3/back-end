@@ -46,7 +46,7 @@ describe("findAdminTasksQuery", () => {
       updatedBeforeThan?: IPaginatedInput
     ) => {
       const limit = 15;
-      const statuses = [status].flat();
+      const statuses = ([status] as any).flat();
       const adminTaskTypes = [
         AdminTaskType.Applicant,
         AdminTaskType.Company,

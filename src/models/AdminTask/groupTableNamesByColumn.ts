@@ -9,8 +9,10 @@ const getColumns = (model: AdminTaskModelsType) => {
 const mapModelToTableNameColumnTuple = (model: AdminTaskModelsType) =>
   getColumns(model).map(column => ({ tableName: model.tableName, column }));
 
-const mapAllModelsToTableNameColumnTuple = (adminTaskModelsTypes: AdminTaskModelsType[]) =>
-  adminTaskModelsTypes.map(model => mapModelToTableNameColumnTuple(model)).flat();
+const mapAllModelsToTableNameColumnTuple = (adminTaskModelsTypes: AdminTaskModelsType[]) => {
+  const foo: any = adminTaskModelsTypes.map(model => mapModelToTableNameColumnTuple(model));
+  return foo.flat();
+};
 
 const groupByColumns = (adminTaskModelsTypes: AdminTaskModelsType[]) =>
   groupBy(mapAllModelsToTableNameColumnTuple(adminTaskModelsTypes), "column");

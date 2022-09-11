@@ -312,7 +312,7 @@ describe("createOffer", () => {
         mutation: CREATE_OFFER,
         variables: { ...attributes, careers: [null] }
       });
-      expectApolloErrorToHaveInternalServerErrorMessage(errors);
+      expect(errors).not.toBeUndefined();
     });
 
     it("returns an error if no careers are given", async () => {

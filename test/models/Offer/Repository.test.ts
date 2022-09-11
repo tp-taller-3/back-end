@@ -246,6 +246,7 @@ describe("OfferRepository", () => {
       };
       await OfferRepository.update({ careers: [], sections: [newSectionData], offer });
       const [updatedSection] = await offer.getSections();
+      // @ts-ignore
       expect(updatedSection).toBeObjectContaining({ uuid: section.uuid, ...newSectionData });
     });
 

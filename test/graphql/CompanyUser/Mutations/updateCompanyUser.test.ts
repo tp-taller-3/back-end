@@ -73,6 +73,7 @@ describe("updateCompanyUser", () => {
       userUuid: companyUser.userUuid,
       position: variables.user.position,
       user: {
+        // @ts-ignore
         uuid: companyUser.userUuid,
         ...omit(variables.user, ["position"]),
         dni: null
