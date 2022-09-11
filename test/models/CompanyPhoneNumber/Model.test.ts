@@ -1,6 +1,9 @@
 import { ValidationError } from "sequelize";
 import { CompanyPhoneNumber } from "$models";
-import { InvalidPhoneNumberError, PhoneNumberWithLettersError } from "validations-fiuba-course-admin";
+import {
+  InvalidPhoneNumberError,
+  PhoneNumberWithLettersError
+} from "validations-fiuba-course-admin";
 
 describe("companyPhoneNumber", () => {
   it("creates a valid CompanyPhoneNumber", async () => {

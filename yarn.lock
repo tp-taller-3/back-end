@@ -5849,9 +5849,9 @@ node-pre-gyp@0.15.0:
     semver "^5.3.0"
     tar "^4.4.2"
 
-node@14.15.0:
-  version "14.15.0"
-  resolved "https://registry.yarnpkg.com/node/-/node-14.15.0.tgz#40b8395d5247a077769ab3e69268fba690406253"
+node@14.17.0:
+  version "14.17.0"
+  resolved "https://registry.yarnpkg.com/node/-/node-14.17.0.tgz#40b8395d5247a077769ab3e69268fba690406253"
   integrity sha512-FrsP5wcA72CXNgQUk7zIdZm4vciBa/ahzaGC5iv3T0coNvz7hGsiI4pMdqqr0OXlVqyvSxDHzUUrhxlY3Hb2Kg==
   dependencies:
     node-bin-setup "^1.0.0"
@@ -8103,7 +8103,7 @@ validations-fiuba-course-admin@1.0.38:
     express "4.17.1"
     husky "3.1.0"
     libphonenumber-js "1.7.51"
-    node "14.15.0"
+    node "14.17.0"
     password-validator "5.0.3"
     reflect-metadata "0.1.13"
     typescript-logging "0.6.4"

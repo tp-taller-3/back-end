@@ -8,7 +8,7 @@
     "Manuel Llauró <llauromanuel@gmail.com>"
   ],
   "engines": {
-    "node": "14.15.0"
+    "node": "14.17.0"
   },
   "main": "index.ts",
   "dependencies": {
@@ -53,7 +53,7 @@
     "jsonwebtoken": "8.5.1",
     "lodash": "4.17.19",
     "moment": "2.29.1",
-    "node": "14.15.0",
+    "node": "14.17.0",
     "nodemon": "2.0.4",
     "pg": "8.3.0",
     "pg-hstore": "2.3.3",
