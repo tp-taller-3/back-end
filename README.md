@@ -1,12 +1,11 @@
 # Administrador de Cursos: back-end
 
-Trabajo Práctico Profesional, FIUBA, 2020
+TP Taller 3, FIUBA, 2022
 
 **Staging:**
 
-- **Build:** ![Build status](https://github.com/fiuba-course-admin/back-end/workflows/back-end-build/badge.svg)
-- **Coverage:** [![Coverage Status](https://coveralls.io/repos/github/fiuba-course-admin/back-end/badge.svg)](https://coveralls.io/github/fiuba-course-admin/back-end)
-- **URL:** http://antiguos.fi.uba.ar/graphql/
+- **Build:** ![Build status](https://github.com/tp-taller-3/back-end/workflows/back-end-build/badge.svg)
+- **Coverage:** [![Coverage Status](https://coveralls.io/repos/github/tp-taller-3/back-end/badge.svg?branch=main)](https://coveralls.io/github/tp-taller-3/back-end?branch=main)
 
 ## Comandos de yarn
 
