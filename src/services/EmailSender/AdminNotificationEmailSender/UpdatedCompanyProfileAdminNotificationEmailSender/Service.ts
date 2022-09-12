@@ -12,6 +12,7 @@ export const UpdatedCompanyProfileAdminNotificationEmailSender = {
   send: async (notification: UpdatedCompanyProfileAdminNotification) => {
     const company = await CompanyRepository.findByUuid(notification.companyUuid);
     const settings = await SecretarySettingsRepository.findBySecretary(notification.secretary);
+    // @ts-ignore
     const { subject, body } = TranslationRepository.translate(
       "updatedCompanyProfileAdminNotificationEmail"
     );

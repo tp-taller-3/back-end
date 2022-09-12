@@ -8,6 +8,7 @@ import { JWT } from "$src/JWT";
 
 export const PasswordRecoveryEmailSender = {
   send: async (user: User) => {
+    // @ts-ignore
     const { subject, body } = TranslationRepository.translate("passwordRecoveryEmail");
     const token = await JWT.createToken(user, "recoverPassword");
 

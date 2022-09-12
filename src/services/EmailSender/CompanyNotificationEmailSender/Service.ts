@@ -20,6 +20,7 @@ export const CompanyNotificationEmailSender = {
     bodyTemplate: (signature: string) => object,
     emailTranslationGroup: string
   ) => {
+    // @ts-ignore
     const { subject, body } = TranslationRepository.translate(emailTranslationGroup);
     const settings = await SecretarySettingsRepository.findByAdminUuid(notification.moderatorUuid);
     const receiverEmails = await getReceiverEmails(notification.notifiedCompanyUuid);

@@ -33,6 +33,7 @@ export const JobApplicationApplicantNotificationEmailSender = {
       notification.jobApplicationUuid
     );
     const offer = await OfferRepository.findByUuid(offerUuid);
+    // @ts-ignore
     const { subject, body } = TranslationRepository.translate(emailTranslationGroup);
     const settings = await SecretarySettingsRepository.findByAdminUuid(notification.moderatorUuid);
     const sender = await Sender.findByAdmin(notification.moderatorUuid);

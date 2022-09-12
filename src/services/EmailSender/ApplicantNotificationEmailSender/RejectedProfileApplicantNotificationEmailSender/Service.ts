@@ -14,6 +14,7 @@ export const RejectedProfileApplicantNotificationEmailSender = {
     const applicant = await ApplicantRepository.findByUuid(notification.notifiedApplicantUuid);
     const applicantUser = await UserRepository.findByUuid(applicant.userUuid);
     const settings = await SecretarySettingsRepository.findByAdminUuid(notification.moderatorUuid);
+    // @ts-ignore
     const { subject, body } = TranslationRepository.translate(
       "rejectedProfileApplicantNotificationEmail"
     );
