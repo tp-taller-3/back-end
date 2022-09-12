@@ -8768,10 +8768,10 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-validations-fiuba-course-admin@1.0.40:
-  version "1.0.40"
-  resolved "https://registry.yarnpkg.com/validations-fiuba-course-admin/-/validations-fiuba-course-admin-1.0.40.tgz#2c492f42c5a35c90f71f7adf935d348aed78ed59"
-  integrity sha512-UUcTndcEYIgR4lFbp6zrIoNc7Gl/KzdjPpCDnPM7Z6KmyK4YGa8FNSInV1JbtF/d9UQfRqHzQ7FyNny+z4Q95g==
+validations-fiuba-course-admin@1.0.41:
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/validations-fiuba-course-admin/-/validations-fiuba-course-admin-1.0.41.tgz#53e55ad93ce16ed4164c1dbc0870c9a89b9da3fa"
+  integrity sha512-WRx6rknavAlCvLTgMshBfXydiLZOZE4NVuYiCaO6ebfBqxdqvOkLhaYb4AR2Bw6fJFXtYl3VeVzZS+/fU3yByA==
   dependencies:
     "@types/bluebird" "3.5.29"
     "@types/node" "13.1.4"
