@@ -30,7 +30,8 @@ import {
   AdminNotificationSequelizeModel,
   SecretarySettings,
   SharedSettings,
-  NotificationEmailLog
+  NotificationEmailLog,
+  Survey
 } from "$models";
 
 const models = [
@@ -61,7 +62,8 @@ const models = [
   AdminNotificationSequelizeModel,
   SecretarySettings,
   SharedSettings,
-  NotificationEmailLog
+  NotificationEmailLog,
+  Survey
 ];
 
 export class Database {
