@@ -12,14 +12,14 @@ export = {
         secretary: Secretary.graduados,
         offerDurationInDays: 15,
         email: "graduados@fi.uba.ar",
-        emailSignature: "Administrador de Cursos",
+        emailSignature: "Encuestas de Cursos",
         automaticJobApplicationApproval: true
       },
       {
         secretary: Secretary.extension,
         offerDurationInDays: 15,
         email: "empleos@fi.uba.ar",
-        emailSignature: "Administrador de Cursos",
+        emailSignature: "Encuestas de Cursos",
         automaticJobApplicationApproval: false
       }
     ]);

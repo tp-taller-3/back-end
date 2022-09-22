@@ -1,6 +1,6 @@
 export const defaultTranslations = {
   titleBar: {
-    title: "Administrador de Cursos"
+    title: "Encuestas de Cursos"
   },
   changeCurrentRoleButton: {
     enterAsAdmin: "Navegar como Admin",
@@ -442,6 +442,7 @@ export const defaultTranslations = {
     jobApplications: "Postulaciones",
     createOffer: "Publicar Oferta",
     tasks: "Tareas Pendientes",
+    surveys: "Encuestas",
     logOut: "Cerrar sesión",
     myProfile: "Mi perfil",
     myCompanyProfile: "Mi empresa",
@@ -546,6 +547,19 @@ export const defaultTranslations = {
     approved_or_pending: "Tareas aprobadas o pendientes",
     approved_or_rejected: "Tareas aprobadas o rechazadas",
     approved_or_pending_or_rejected: "Tareas"
+  },
+  surveyList: {
+    emptyList: "No hay encuestas"
+  },
+  surveyListEmptyDetail: {
+    selectToStart: "Seleccioná para editar"
+  },
+  addSurveyDialog: {
+    title: "Crear una nueva encuesta",
+    confirm: "Crear encuesta",
+    cancel: "Volver",
+    name: "Nombre",
+    create: "Crear encuesta"
   },
   adminEmptyDetail: {
     selectToStart: "Seleccioná para comenzar"

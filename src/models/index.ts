@@ -26,3 +26,4 @@ export { CompanyNotificationSequelizeModel } from "./CompanyNotification/Model";
 export { SecretarySettings } from "./SecretarySettings/Model";
 export { SharedSettings } from "./SharedSettings/Model";
 export { NotificationEmailLog } from "./NotificationEmailLog/Model";
+export { Survey } from "./Survey/Model";

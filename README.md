@@ -1,4 +1,4 @@
-# Administrador de Cursos: back-end
+# Encuestas de Cursos: back-end
 
 TP Taller 3, FIUBA, 2022
 
