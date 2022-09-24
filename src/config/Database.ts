@@ -31,7 +31,12 @@ import {
   SecretarySettings,
   SharedSettings,
   NotificationEmailLog,
-  Survey
+  Survey,
+  Semester,
+  Department,
+  Course,
+  Question,
+  Answer
 } from "$models";
 
 const models = [
@@ -63,7 +68,12 @@ const models = [
   SecretarySettings,
   SharedSettings,
   NotificationEmailLog,
-  Survey
+  Survey,
+  Semester,
+  Department,
+  Course,
+  Question,
+  Answer
 ];
 
 export class Database {

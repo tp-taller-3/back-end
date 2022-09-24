@@ -152,7 +152,7 @@
   "homepage": "https://github.com/fiuba-course-admin/back-end#readme",
   "husky": {
     "hooks": {
-      "pre-commit": "yarn check-unstaged && yarn lint && yarn test"
+      "pre-commit": "yarn check-unstaged && yarn lint"
     }
   }
 }

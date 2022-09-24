@@ -27,3 +27,8 @@ export { SecretarySettings } from "./SecretarySettings/Model";
 export { SharedSettings } from "./SharedSettings/Model";
 export { NotificationEmailLog } from "./NotificationEmailLog/Model";
 export { Survey } from "./Survey/Model";
+export { Semester } from "./Semester";
+export { Department } from "./Department";
+export { Course } from "./Course";
+export { Question } from "./Question";
+export { Answer } from "./Answer";
