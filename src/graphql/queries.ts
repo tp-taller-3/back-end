@@ -15,6 +15,10 @@ import { applicantNotificationQueries } from "./ApplicantNotification";
 import { adminNotificationQueries } from "./AdminNotification";
 import { companyUserQueries } from "./CompanyUser";
 import { surveyQueries } from "$graphql/Survey";
+import { semesterQueries } from "$graphql/Semester";
+import { departmentQueries } from "$graphql/Department";
+import { courseQueries } from "$graphql/Course";
+import { questionQueries } from "$graphql/Question";
 
 export const queries = () =>
   merge(
@@ -33,5 +37,9 @@ export const queries = () =>
     applicantNotificationQueries,
     adminNotificationQueries,
     companyUserQueries,
-    surveyQueries
+    surveyQueries,
+    semesterQueries,
+    departmentQueries,
+    courseQueries,
+    questionQueries
   );
