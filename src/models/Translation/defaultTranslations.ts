@@ -3,8 +3,8 @@ export const defaultTranslations = {
     title: "Encuestas de Cursos"
   },
   changeCurrentRoleButton: {
-    enterAsAdmin: "Navegar como Admin",
-    enterAsApplicant: "Navegar como Postulante"
+    enterAsAdmin: "Cargar respuestas (admin)",
+    enterAsApplicant: "Consultar resultados"
   },
   userEditFields: {
     name: "Nombre",
@@ -227,8 +227,7 @@ export const defaultTranslations = {
     description:
       "El administrador no podrá ingresar a la aplicación hasta que se reactive la cuenta",
     submit: "Guardar",
-    deleteLastAdminError:
-      "No puede borrar este administrador, es el único que existe de esa secretaría"
+    deleteLastAdminError: "No puede borrar este administrador, es el único que queda"
   },
   activateAdminAccount: {
     title: "Activar la cuenta del administrador:",

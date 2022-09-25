@@ -1,8 +1,7 @@
 import { Column, Table } from "sequelize-typescript";
 import { TEXT } from "sequelize";
-import { SequelizeModel, Nullable } from "$models/SequelizeModel";
+import { Nullable, SequelizeModel } from "$models/SequelizeModel";
 import { MissingDniError } from "./Errors";
-import { validateEmail, validateName } from "validations-fiuba-course-admin";
 
 @Table({
   tableName: "Users",
@@ -13,16 +12,16 @@ import { validateEmail, validateName } from "validations-fiuba-course-admin";
   }
 })
 export class UserSequelizeModel extends SequelizeModel<UserSequelizeModel> {
-  @Column({ allowNull: false, type: TEXT, validate: { validateName } })
+  @Column({ allowNull: false, type: TEXT })
   public name: string;
 
-  @Column({ allowNull: false, type: TEXT, validate: { validateName } })
+  @Column({ allowNull: false, type: TEXT })
   public surname: string;
 
   @Column({ allowNull: true, type: TEXT })
   public password: Nullable<string>;
 
-  @Column({ allowNull: false, unique: true, type: TEXT, validate: { validateEmail } })
+  @Column({ allowNull: false, type: TEXT })
   public email: string;
 
   @Column({ allowNull: true, unique: true, type: TEXT })
