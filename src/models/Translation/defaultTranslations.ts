@@ -1,6 +1,6 @@
 export const defaultTranslations = {
   titleBar: {
-    title: "Encuestas de Cursos"
+    title: "Encuestas de Cursos FIUBA"
   },
   changeCurrentRoleButton: {
     enterAsAdmin: "Cargar respuestas (admin)",
