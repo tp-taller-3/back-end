@@ -8,9 +8,20 @@ export const QuestionRepository = {
     currentUserDNI
   }: {
     courseUuid: string;
-    currentUserDNI: string;
-  }) =>
-    Question.findAll({
+    currentUserDNI?: string | null;
+  }) => {
+    const orClause: any = [
+      {
+        isPublic: true
+      }
+    ];
+
+    if (currentUserDNI) {
+      orClause.push({ "$course.leadDNI$": currentUserDNI });
+      orClause.push({ "$course->department.leadDNI$": currentUserDNI });
+    }
+
+    return Question.findAll({
       include: [
         {
           model: Course,
@@ -25,17 +36,8 @@ export const QuestionRepository = {
       ],
       where: {
         courseUuid,
-        [Op.or]: [
-          {
-            isPublic: true
-          },
-          {
-            "$course.leadDNI$": currentUserDNI
-          },
-          {
-            "$course->department.leadDNI$": currentUserDNI
-          }
-        ]
+        [Op.or]: orClause
       }
-    })
+    });
+  }
 };
