@@ -1,43 +1,37 @@
 import { Question } from "./Model";
-import { Course, Department } from "$models";
-import { Op } from "sequelize";
+import { QueryTypes } from "sequelize";
+import { Database } from "$config";
 
 export const QuestionRepository = {
-  findByCourseUuid: async ({
+  findByCourseUuid: ({
     courseUuid,
     currentUserDNI
   }: {
     courseUuid: string;
     currentUserDNI?: string | null;
   }) => {
-    const orClause: any = [
+    const dniClause = currentUserDNI ? `= '${currentUserDNI}'` : "IS NULL";
+
+    return Database.sequelize.query(
+      `
+          SELECT DISTINCT ON ("uuid") "Question".*
+          FROM "Questions" AS "Question"
+            LEFT OUTER JOIN "Teachers" AS "QuestionTeacher" ON "Question"."teacherUuid" = "QuestionTeacher"."uuid"
+            LEFT OUTER JOIN "Courses" ON "Courses"."uuid" = "Question"."courseUuid"
+            LEFT OUTER JOIN "Teachers" AS "CourseTeacher" ON "Courses"."uuid" = "CourseTeacher"."courseUuid"
+          WHERE (
+            "Question"."isPublic" = true
+              OR "QuestionTeacher"."dni" ${dniClause}
+              OR ("CourseTeacher"."role" = 'jtp' AND "CourseTeacher"."dni" ${dniClause} AND "QuestionTeacher"."role" = 'ayudante')
+              OR ("CourseTeacher"."role" = 'titular' AND "CourseTeacher"."dni" ${dniClause})
+          ) AND "Question"."courseUuid" = :courseUuid
+      `,
       {
-        isPublic: true
+        replacements: { courseUuid },
+        type: QueryTypes.SELECT,
+        model: Question,
+        mapToModel: true
       }
-    ];
-
-    if (currentUserDNI) {
-      orClause.push({ "$course.leadDNI$": currentUserDNI });
-      orClause.push({ "$course->department.leadDNI$": currentUserDNI });
-    }
-
-    return Question.findAll({
-      include: [
-        {
-          model: Course,
-          attributes: [],
-          include: [
-            {
-              model: Department,
-              attributes: []
-            }
-          ]
-        }
-      ],
-      where: {
-        courseUuid,
-        [Op.or]: orClause
-      }
-    });
+    );
   }
 };

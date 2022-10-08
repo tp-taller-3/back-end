@@ -14,9 +14,7 @@ import { companyNotificationTypes } from "./CompanyNotification";
 import { applicantNotificationTypes } from "./ApplicantNotification";
 import { adminNotificationTypes } from "./AdminNotification";
 import { companyUserTypes } from "./CompanyUser";
-import { surveyTypes } from "$graphql/Survey";
 import { semesterTypes } from "$graphql/Semester";
-import { departmentTypes } from "$graphql/Department";
 import { courseTypes } from "$graphql/Course";
 import { questionTypes } from "$graphql/Question";
 import { answerTypes } from "$graphql/Answer";
@@ -38,9 +36,7 @@ export const types = [
   ...applicantNotificationTypes,
   ...adminNotificationTypes,
   ...companyUserTypes,
-  ...surveyTypes,
   ...semesterTypes,
-  ...departmentTypes,
   ...courseTypes,
   ...questionTypes,
   ...answerTypes

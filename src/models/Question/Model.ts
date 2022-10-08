@@ -12,6 +12,7 @@ import { BOOLEAN, HasManyGetAssociationsMixin, TEXT, UUID, UUIDV4 } from "sequel
 import { isUuid } from "../SequelizeModelValidators";
 import { Course } from "$models/Course";
 import { Answer } from "$src/models";
+import { Teacher } from "$models/Teacher";
 
 @Table({ tableName: "Questions", timestamps: true })
 export class Question extends Model<Question> {
@@ -42,11 +43,12 @@ export class Question extends Model<Question> {
   })
   public category: string;
 
-  @Column({
-    allowNull: true,
-    type: TEXT
-  })
-  public teacherName: string;
+  @ForeignKey(() => Teacher)
+  @Column({ allowNull: true, type: UUID })
+  public teacherUuid: string;
+
+  @BelongsTo(() => Teacher, "teacherUuid")
+  public teacher: Teacher;
 
   @ForeignKey(() => Course)
   @Column({ allowNull: false, type: UUID })

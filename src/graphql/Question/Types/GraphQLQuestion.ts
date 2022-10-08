@@ -21,9 +21,6 @@ export const GraphQLQuestion = new GraphQLObjectType<Question>({
     category: {
       type: nonNull(GraphQLString)
     },
-    teacherName: {
-      type: GraphQLString
-    },
     answers: {
       type: List(nonNull(GraphQLAnswer)),
       resolve: question => question.getAnswers()
