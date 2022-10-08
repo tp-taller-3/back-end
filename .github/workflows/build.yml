@@ -30,8 +30,8 @@ jobs:
         run: yarn install
       - name: Database setup
         run: yarn db:drop || true && yarn db:create && yarn db:migrate
-      - name: Run linter and tests
-        run: yarn lint && yarn test
+      - name: Run linter
+        run: yarn lint
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
