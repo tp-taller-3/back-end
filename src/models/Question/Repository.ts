@@ -9,10 +9,8 @@ export const QuestionRepository = {
   }: {
     courseUuid: string;
     currentUserDNI?: string | null;
-  }) => {
-    const dniClause = currentUserDNI ? `= '${currentUserDNI}'` : "IS NULL";
-
-    return Database.sequelize.query(
+  }) =>
+    Database.sequelize.query(
       `
           SELECT DISTINCT ON ("uuid") "Question".*
           FROM "Questions" AS "Question"
@@ -21,9 +19,15 @@ export const QuestionRepository = {
             LEFT OUTER JOIN "Teachers" AS "CourseTeacher" ON "Courses"."uuid" = "CourseTeacher"."courseUuid"
           WHERE (
             "Question"."isPublic" = true
-              OR "QuestionTeacher"."dni" ${dniClause}
-              OR ("CourseTeacher"."role" = 'jtp' AND "CourseTeacher"."dni" ${dniClause} AND "QuestionTeacher"."role" = 'ayudante')
-              OR ("CourseTeacher"."role" = 'titular' AND "CourseTeacher"."dni" ${dniClause})
+              ${
+                currentUserDNI
+                  ? `
+                  OR "QuestionTeacher"."dni" = '${currentUserDNI}'
+                  OR ("CourseTeacher"."role" = 'jtp' AND "CourseTeacher"."dni" = '${currentUserDNI}' AND "QuestionTeacher"."role" = 'ayudante')
+                  OR ("CourseTeacher"."role" = 'titular' AND "CourseTeacher"."dni" = '${currentUserDNI}')
+                `
+                  : ""
+              }
           ) AND "Question"."courseUuid" = :courseUuid
       `,
       {
@@ -32,6 +36,5 @@ export const QuestionRepository = {
         model: Question,
         mapToModel: true
       }
-    );
-  }
+    )
 };
