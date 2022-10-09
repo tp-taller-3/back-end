@@ -33,13 +33,6 @@ export const parseCsv = (input: Buffer, expectedColumnNames: string[]) => {
 };
 
 const validateColumns = (expectedColumns: string[], actualColumns: string[]) => {
-  if (expectedColumns.length !== actualColumns.length) {
-    throw {
-      code: CsvErrorCode.ColumnsLengthMissmatch,
-      expected: expectedColumns,
-      received: actualColumns
-    };
-  }
   const missingColumns = _.difference(expectedColumns, actualColumns);
   const extraColumns = _.difference(actualColumns, expectedColumns);
   if (missingColumns.length !== 0 || extraColumns.length !== 0) {
