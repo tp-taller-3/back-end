@@ -441,7 +441,7 @@ export const defaultTranslations = {
     jobApplications: "Postulaciones",
     createOffer: "Publicar Oferta",
     tasks: "Tareas Pendientes",
-    surveys: "Encuestas",
+    csvUpload: "Cargar CSV",
     logOut: "Cerrar sesión",
     myProfile: "Mi perfil",
     myCompanyProfile: "Mi empresa",
@@ -897,5 +897,14 @@ export const defaultTranslations = {
     companySignUpAcceptanceCriteria: "Registro de empresa",
     companyEditableAcceptanceCriteria: "Edición de empresa",
     editOfferAcceptanceCriteria: "Edición o creación de oferta"
+  },
+  csvUpload: {
+    title: "Cargar CSV",
+    semester: "Cuatrimestre",
+    1: "1er cuatrimestre",
+    2: "2do cuatrimestre",
+    year: "Año",
+    answersCSV: "Respuestas de encuestas",
+    teachersCSV: "Docentes"
   }
 };
