@@ -5,10 +5,10 @@ import { CourseRepository } from "$models/Course/Repository";
 export const getCourses = {
   type: List(nonNull(GraphQLCourse)),
   args: {
-    departmentUuid: {
+    semesterUuid: {
       type: nonNull(ID)
     }
   },
-  resolve: (_: undefined, { departmentUuid }: { departmentUuid: string }) =>
-    CourseRepository.findByDepartmentUuid({ departmentUuid })
+  resolve: (_: undefined, { semesterUuid }: { semesterUuid: string }) =>
+    CourseRepository.findBySemesterUuid({ semesterUuid })
 };

@@ -31,10 +31,9 @@ import {
   SecretarySettings,
   SharedSettings,
   NotificationEmailLog,
-  Survey,
   Semester,
-  Department,
   Course,
+  Teacher,
   Question,
   Answer
 } from "$models";
@@ -68,9 +67,8 @@ const models = [
   SecretarySettings,
   SharedSettings,
   NotificationEmailLog,
-  Survey,
+  Teacher,
   Semester,
-  Department,
   Course,
   Question,
   Answer

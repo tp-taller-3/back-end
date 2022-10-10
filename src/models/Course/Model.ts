@@ -3,15 +3,14 @@ import {
   Column,
   CreatedAt,
   ForeignKey,
-  Is,
+  HasMany,
   Model,
   Table,
   UpdatedAt
 } from "sequelize-typescript";
-import { INTEGER, TEXT, UUID, UUIDV4 } from "sequelize";
+import { TEXT, UUID, UUIDV4 } from "sequelize";
 import { isUuid } from "../SequelizeModelValidators";
-import { validateIntegerInRange } from "validations-fiuba-course-admin";
-import { Department } from "$models/Department";
+import { Semester, Teacher } from "$src/models";
 
 @Table({ tableName: "Courses", timestamps: true })
 export class Course extends Model<Course> {
@@ -30,19 +29,15 @@ export class Course extends Model<Course> {
   })
   public name: string;
 
-  @Is("leadDNI", validateIntegerInRange({ min: { value: 0, include: false } }))
-  @Column({
-    allowNull: false,
-    type: INTEGER
-  })
-  public leadDNI: number;
-
-  @ForeignKey(() => Department)
+  @ForeignKey(() => Semester)
   @Column({ allowNull: false, type: UUID })
-  public departmentUuid: string;
+  public semesterUuid: string;
 
-  @BelongsTo(() => Department, "departmentUuid")
-  public department: Department;
+  @BelongsTo(() => Semester, "semesterUuid")
+  public semester: Semester;
+
+  @HasMany(() => Teacher)
+  public teachers: Teacher[];
 
   @CreatedAt
   @Column

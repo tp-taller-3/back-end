@@ -1,43 +1,40 @@
 import { Question } from "./Model";
-import { Course, Department } from "$models";
-import { Op } from "sequelize";
+import { QueryTypes } from "sequelize";
+import { Database } from "$config";
 
 export const QuestionRepository = {
-  findByCourseUuid: async ({
+  findByCourseUuid: ({
     courseUuid,
     currentUserDNI
   }: {
     courseUuid: string;
     currentUserDNI?: string | null;
-  }) => {
-    const orClause: any = [
+  }) =>
+    Database.sequelize.query(
+      `
+          SELECT DISTINCT ON ("uuid") "Question".*
+          FROM "Questions" AS "Question"
+            LEFT OUTER JOIN "Teachers" AS "QuestionTeacher" ON "Question"."teacherUuid" = "QuestionTeacher"."uuid"
+            LEFT OUTER JOIN "Courses" ON "Courses"."uuid" = "Question"."courseUuid"
+            LEFT OUTER JOIN "Teachers" AS "CourseTeacher" ON "Courses"."uuid" = "CourseTeacher"."courseUuid"
+          WHERE (
+            "Question"."isPublic" = true
+              ${
+                currentUserDNI
+                  ? `
+                  OR "QuestionTeacher"."dni" = '${currentUserDNI}'
+                  OR ("CourseTeacher"."role" = 'jtp' AND "CourseTeacher"."dni" = '${currentUserDNI}' AND "QuestionTeacher"."role" = 'ayudante')
+                  OR ("CourseTeacher"."role" = 'titular' AND "CourseTeacher"."dni" = '${currentUserDNI}')
+                `
+                  : ""
+              }
+          ) AND "Question"."courseUuid" = :courseUuid
+      `,
       {
-        isPublic: true
+        replacements: { courseUuid },
+        type: QueryTypes.SELECT,
+        model: Question,
+        mapToModel: true
       }
-    ];
-
-    if (currentUserDNI) {
-      orClause.push({ "$course.leadDNI$": currentUserDNI });
-      orClause.push({ "$course->department.leadDNI$": currentUserDNI });
-    }
-
-    return Question.findAll({
-      include: [
-        {
-          model: Course,
-          attributes: [],
-          include: [
-            {
-              model: Department,
-              attributes: []
-            }
-          ]
-        }
-      ],
-      where: {
-        courseUuid,
-        [Op.or]: orClause
-      }
-    });
-  }
+    )
 };

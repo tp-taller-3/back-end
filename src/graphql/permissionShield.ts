@@ -16,7 +16,6 @@ import { companyNotificationPermissions } from "./CompanyNotification";
 import { applicantNotificationPermissions } from "./ApplicantNotification";
 import { adminNotificationPermissions } from "./AdminNotification";
 import { companyUserPermissions } from "./CompanyUser";
-import { surveyPermissions } from "$graphql/Survey";
 
 const permissions = merge(
   offerPermissions,
@@ -32,8 +31,7 @@ const permissions = merge(
   companyNotificationPermissions,
   applicantNotificationPermissions,
   adminNotificationPermissions,
-  companyUserPermissions,
-  surveyPermissions
+  companyUserPermissions
 );
 
 export const permissionShield = shield(permissions, {
