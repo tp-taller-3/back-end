@@ -27,20 +27,16 @@ export const csvUploadHandler = async (req, res) => {
     );
     ValidateBodyFields(req.body);
   } catch (err) {
-    return res.status(400).send(err);
+    return res.status(400).send({ error: err });
   }
   try {
-    const answers = readRecords(req.files[answersCSV].data, answersCSVColumns, answersCSV);
-    const teachers = readRecords(req.files[teachersCSV].data, teachersCSVColumns, teachersCSV);
+    readRecords(req.files[answersCSV].data, answersCSVColumns, answersCSV);
+    readRecords(req.files[teachersCSV].data, teachersCSVColumns, teachersCSV);
     return res.status(201).send({
-      success: true,
-      answers: answers,
-      teachers: teachers,
-      semester: req.body.semester,
-      year: req.body.year
+      success: true
     });
   } catch (err) {
-    return res.status(422).send(err);
+    return res.status(422).send({ error: err });
   }
 };
 
