@@ -160,7 +160,6 @@ const getOrCreateTeacherByName = async (fullName: string, course: Course) => {
     teacher = new Teacher();
     teacher.name = getNameFromFullName(fullName);
     teacher.role = getTeacherRoleFromFullName(fullName);
-    teacher.dni = 123; // Reemplazar por dni posta!!  O hacer allow NULL!!!
     // Aunque si hago allow null tendria que ver porque podria pasar que les
     // falte un teacher en el segundo csv... O viceversa
     teacher.fullName = fullName;
