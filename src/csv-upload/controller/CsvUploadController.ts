@@ -1,43 +1,46 @@
 import { parseCsv } from "$src/util";
 import _ from "lodash";
+import { answersCsvColumns, csvFileName, teachersCsvColumns } from "../csvConstants";
+import { csvBulkUpsert } from "../service";
 import { CsvUploadControllerErrorCode } from "./CsvUploadControllerErrorCodes";
-
-const answersCSV = "answersCSV";
-const answersCSVColumns = [
-  "Encuesta",
-  "Concepto Evaluado",
-  "Elemento evaluado",
-  "Bloque",
-  "Código de Pregunta",
-  "Pregunta",
-  "Valor de Respuesta",
-  "Usuario",
-  "Respondido por",
-  "Código del elemento"
-];
-const teachersCSV = "teachersCSV";
-const teachersCSVColumns = ["DNI", "Nombre"];
 
 export const csvUploadHandler = async (req, res) => {
   // Check admin here...
   try {
     checkForMissingFiles(
-      [answersCSV, teachersCSV],
+      [csvFileName.Answers, csvFileName.Teachers],
       Object.keys(req.files === undefined ? {} : req.files)
     );
     ValidateBodyFields(req.body);
   } catch (err) {
     return res.status(400).send({ error: err });
   }
+  let answers = [];
   try {
-    readRecords(req.files[answersCSV].data, answersCSVColumns, answersCSV);
-    readRecords(req.files[teachersCSV].data, teachersCSVColumns, teachersCSV);
-    return res.status(201).send({
-      success: true
-    });
+    answers = readRecords(
+      req.files[csvFileName.Answers].data,
+      Object.values(answersCsvColumns),
+      csvFileName.Answers
+    );
+    readRecords(
+      req.files[csvFileName.Teachers].data,
+      Object.values(teachersCsvColumns),
+      csvFileName.Teachers
+    );
   } catch (err) {
     return res.status(422).send({ error: err });
   }
+  try {
+    // Add teacher to csvBulkUpsert
+    await csvBulkUpsert(answers, Number(req.body.year), Number(req.body.semester));
+  } catch (err) {
+    // Deberia ser un 500? Si falla la base supongo que sí.
+    // Pero si es por un error de validacion que debería devolver?
+    return res.status(500).send({ error: err });
+  }
+  return res.status(201).send({
+    success: true
+  });
 };
 
 const readRecords = (input: Buffer, expectedColumnNames: string[], fileName: string) => {
