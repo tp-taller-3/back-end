@@ -103,21 +103,12 @@ const getOrCreateQuestion = async (
   teacher: Teacher,
   course: Course
 ) => {
-  let question;
-  if (teacher) {
-    question = await QuestionRepository.findByCourseTeacherCategoryAndQuestionText(
-      questionText,
-      category,
-      teacher.uuid,
-      course.uuid
-    );
-  } else {
-    question = await QuestionRepository.findByCourseCategoryAndQuestionText(
-      questionText,
-      category,
-      course.uuid
-    );
-  }
+  let question = await QuestionRepository.findByCourseTeacherCategoryAndQuestionText(
+    questionText,
+    category,
+    teacher === undefined ? null : teacher.uuid,
+    course.uuid
+  );
   if (!question) {
     question = new Question();
     question.isPublic = true; // Agregar logica de publica vs privada
