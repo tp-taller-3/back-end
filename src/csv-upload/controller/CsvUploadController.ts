@@ -16,13 +16,14 @@ export const csvUploadHandler = async (req, res) => {
     return res.status(400).send({ error: err });
   }
   let answers = [];
+  let teachers = [];
   try {
     answers = readRecords(
       req.files[csvFileName.Answers].data,
       Object.values(answersCsvColumns),
       csvFileName.Answers
     );
-    readRecords(
+    teachers = readRecords(
       req.files[csvFileName.Teachers].data,
       Object.values(teachersCsvColumns),
       csvFileName.Teachers
@@ -31,8 +32,7 @@ export const csvUploadHandler = async (req, res) => {
     return res.status(422).send({ error: err });
   }
   try {
-    // Add teacher to csvBulkUpsert
-    await csvBulkUpsert(answers, Number(req.body.year), Number(req.body.semester));
+    await csvBulkUpsert(answers, teachers, Number(req.body.year), Number(req.body.semester));
   } catch (err) {
     // Deberia ser un 500? Si falla la base supongo que sí.
     // Pero si es por un error de validacion que debería devolver?
@@ -74,7 +74,6 @@ const ValidateBodyFields = body => {
       actual: body.semester === undefined ? "" : body.semester
     };
   }
-  // Check if year is current or before maybe (?)
   if (isNaN(body.year)) {
     throw {
       code: CsvUploadControllerErrorCode.InvalidField,

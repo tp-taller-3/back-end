@@ -8,23 +8,19 @@ import { Semester, SemesterRepository } from "$models/Semester";
 import { Teacher } from "$models/Teacher";
 import { TeacherRepository } from "$models/Teacher/Repository";
 import { TeacherRole } from "$models/TeacherRole";
-import { answersCsvColumns } from "../csvConstants";
+import { answersCsvColumns, teachersCsvColumns } from "../csvConstants";
 import { PUBLIC_ANSWERS_WHITELIST } from "./PublicAnswersWhitelist";
 
-export const csvBulkUpsert = async (
-  answers,
-  /*teachers,*/ year: number,
-  semesterNumber: number
-) => {
-  const savedSemesters: string[] = [];
-  const savedCourses: string[] = [];
-  const savedTeachers: string[] = [];
-  const savedQuestions: string[] = [];
-  const savedAnswers: string[] = [];
+export const csvBulkUpsert = async (answers, teachers, year: number, semesterNumber: number) => {
+  const savedSemesters = new Set();
+  const savedCourses = new Set();
+  const savedTeachers = new Set();
+  const savedQuestions = new Set();
+  const savedAnswers = new Set();
   try {
     const semester = await getOrCreateSemester(year, semesterNumber);
     await SemesterRepository.save(semester);
-    savedSemesters.push(semester.uuid);
+    savedSemesters.add(semester.uuid);
     for (const answer of answers) {
       const course = await getOrCreateCourseByName(
         answer[answersCsvColumns.EvaluatedConcept],
@@ -32,7 +28,7 @@ export const csvBulkUpsert = async (
       );
       let teacher;
       if (isEvaluatedElementATeacher(answer[answersCsvColumns.EvaluatedElement])) {
-        teacher = await getOrCreateTeacherByName(
+        teacher = await getOrCreateTeacherByFullName(
           answer[answersCsvColumns.EvaluatedElement],
           course
         );
@@ -47,17 +43,22 @@ export const csvBulkUpsert = async (
       const answerEntity = await getOrCreateAnswer(question, answer[answersCsvColumns.AnswerValue]);
       answerEntity.count += 1;
       await CourseRepository.save(course);
-      savedCourses.push(course.uuid);
+      savedCourses.add(course.uuid);
       if (teacher) {
         await TeacherRepository.save(teacher);
-        savedTeachers.push(teacher.uuid);
+        savedTeachers.add(teacher.uuid);
       }
       await QuestionRepository.save(question);
-      savedQuestions.push(question.uuid);
+      savedQuestions.add(question.uuid);
       await AnswerRepository.save(answerEntity);
-      savedAnswers.push(answerEntity.uuid);
+      savedAnswers.add(answerEntity.uuid);
     }
-    // Agregar parseo de teachers (antes o despues... Hay que ver que conviene)
+    for (const teacherRow of teachers) {
+      const teacher = await getOrCreateTeacherByFullName(teacherRow[teachersCsvColumns.Name], null);
+      teacher.dni = teacherRow[teachersCsvColumns.Dni];
+      await TeacherRepository.save(teacher);
+      savedTeachers.add(teacher.uuid);
+    }
   } catch (err) {
     await rollbackCsv(savedSemesters, savedCourses, savedTeachers, savedQuestions, savedAnswers);
     throw err;
@@ -154,17 +155,17 @@ const getOrCreateCourseByName = async (name: string, semester: Semester) => {
   return course;
 };
 
-const getOrCreateTeacherByName = async (fullName: string, course: Course) => {
+const getOrCreateTeacherByFullName = async (fullName: string, course: any) => {
   let teacher = await TeacherRepository.findByFullNameIfExists(fullName);
   if (!teacher) {
     teacher = new Teacher();
     teacher.name = getNameFromFullName(fullName);
     teacher.role = getTeacherRoleFromFullName(fullName);
-    // Aunque si hago allow null tendria que ver porque podria pasar que les
-    // falte un teacher en el segundo csv... O viceversa
     teacher.fullName = fullName;
-    teacher.course = course;
-    teacher.courseUuid = course.uuid;
+    if (course) {
+      teacher.course = course;
+      teacher.courseUuid = course.uuid;
+    }
   }
   return teacher;
 };
