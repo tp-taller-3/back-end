@@ -1,8 +1,8 @@
 import { parseCsv } from "$src/util";
 import _ from "lodash";
 import { answersCsvColumns, csvFileName, teachersCsvColumns } from "../csvConstants";
+import { CsvUploadErrorCodes } from "../csvUploadErrorCodes";
 import { csvBulkUpsert } from "../service";
-import { CsvUploadControllerErrorCode } from "./CsvUploadControllerErrorCodes";
 
 export const csvUploadHandler = async (req, res) => {
   // Check admin here...
@@ -35,8 +35,9 @@ export const csvUploadHandler = async (req, res) => {
   try {
     await csvBulkUpsert(answers, teachers, Number(req.body.year), Number(req.body.semester));
   } catch (err) {
-    // Deberia ser un 500? Si falla la base supongo que sí.
-    // Pero si es por un error de validacion que debería devolver?
+    if (Object.values(CsvUploadErrorCodes).includes(err.code)) {
+      return res.status(422).send({ error: err });
+    }
     return res.status(500).send({ error: err });
   }
   return res.status(201).send({
@@ -58,7 +59,7 @@ const checkForMissingFiles = (expectedFiles: string[], actualFiles: string[]) =>
   const extraFiles = _.difference(actualFiles, expectedFiles);
   if (missingFiles.length !== 0 || extraFiles.length !== 0) {
     throw {
-      code: CsvUploadControllerErrorCode.MissingFile,
+      code: CsvUploadErrorCodes.MissingFile,
       missingFiles: missingFiles,
       extraFiles: extraFiles
     };
@@ -69,7 +70,7 @@ const validateSemester = semester => {
   const validSemesters = ["1", "2"];
   if (!validSemesters.includes(semester)) {
     throw {
-      code: CsvUploadControllerErrorCode.InvalidField,
+      code: CsvUploadErrorCodes.InvalidField,
       field: "semester",
       expected: validSemesters,
       actual: semester === undefined ? "" : semester
@@ -80,7 +81,7 @@ const validateSemester = semester => {
 const validateYear = year => {
   if (isNaN(year)) {
     throw {
-      code: CsvUploadControllerErrorCode.InvalidField,
+      code: CsvUploadErrorCodes.InvalidField,
       field: "year",
       expected: "A valid year",
       actual: year === undefined ? "" : year

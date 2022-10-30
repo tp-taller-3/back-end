@@ -9,6 +9,7 @@ import { Teacher } from "$models/Teacher";
 import { TeacherRepository } from "$models/Teacher/Repository";
 import { TeacherRole } from "$models/TeacherRole";
 import { answersCsvColumns, teachersCsvColumns } from "../csvConstants";
+import { CsvUploadErrorCodes } from "../csvUploadErrorCodes";
 import { PUBLIC_ANSWERS_WHITELIST } from "./PublicAnswersWhitelist";
 
 export const csvBulkUpsert = async (answers, teachers, year: number, semesterNumber: number) => {
@@ -173,7 +174,7 @@ const getOrCreateTeacherByFullName = async (fullName: string, course: Course | n
 const getNameFromFullName = (fullName: string) => {
   const endIndex = fullName.indexOf("(") - 1; // There is a space before the '('
   if (endIndex < 0) {
-    throw { code: "MISSING_ROLE_ON_FULLNAME", fullName: fullName };
+    throw { code: CsvUploadErrorCodes.MissingRoleOnFullname, fullName: fullName };
   }
   return fullName.substring(0, endIndex);
 };
@@ -188,7 +189,7 @@ const getTeacherRoleFromFullName = (fullName: string) => {
     case "Titular":
       return TeacherRole.titular;
     default:
-      throw { code: "UNRECOGNIZED_TEACHER_ROLE", fullName: fullName, role: role };
+      throw { code: CsvUploadErrorCodes.UnrecognizedTeacherRole, fullName: fullName, role: role };
   }
 };
 
