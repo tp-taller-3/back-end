@@ -11,7 +11,8 @@ export const csvUploadHandler = async (req, res) => {
       [csvFileName.Answers, csvFileName.Teachers],
       Object.keys(req.files === undefined ? {} : req.files)
     );
-    ValidateBodyFields(req.body);
+    validateSemester(req.body.semester);
+    validateYear(req.body.year);
   } catch (err) {
     return res.status(400).send({ error: err });
   }
@@ -64,22 +65,25 @@ const checkForMissingFiles = (expectedFiles: string[], actualFiles: string[]) =>
   }
 };
 
-const ValidateBodyFields = body => {
+const validateSemester = semester => {
   const validSemesters = ["1", "2"];
-  if (!validSemesters.includes(body.semester)) {
+  if (!validSemesters.includes(semester)) {
     throw {
       code: CsvUploadControllerErrorCode.InvalidField,
       field: "semester",
       expected: validSemesters,
-      actual: body.semester === undefined ? "" : body.semester
+      actual: semester === undefined ? "" : semester
     };
   }
-  if (isNaN(body.year)) {
+};
+
+const validateYear = year => {
+  if (isNaN(year)) {
     throw {
       code: CsvUploadControllerErrorCode.InvalidField,
       field: "year",
       expected: "A valid year",
-      actual: body.year === undefined ? "" : body.year
+      actual: year === undefined ? "" : year
     };
   }
 };

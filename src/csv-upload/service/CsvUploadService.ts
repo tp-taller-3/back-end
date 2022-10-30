@@ -155,7 +155,7 @@ const getOrCreateCourseByName = async (name: string, semester: Semester) => {
   return course;
 };
 
-const getOrCreateTeacherByFullName = async (fullName: string, course: any) => {
+const getOrCreateTeacherByFullName = async (fullName: string, course: Course | null) => {
   let teacher = await TeacherRepository.findByFullNameIfExists(fullName);
   if (!teacher) {
     teacher = new Teacher();

@@ -42,7 +42,7 @@ export const QuestionRepository = {
   findByCourseTeacherCategoryAndQuestionText: async (
     questionText: string,
     category: string,
-    teacherUuid: any,
+    teacherUuid: string | null,
     courseUuid: string
   ) =>
     Question.findOne({
