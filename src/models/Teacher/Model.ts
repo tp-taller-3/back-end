@@ -12,6 +12,7 @@ import { isUuid } from "../SequelizeModelValidators";
 import { TeacherRole, teacherRoles } from "$models/TeacherRole";
 import { isTeacherRole } from "$models/SequelizeModelValidators/isTeacherRole";
 import { Course } from "$models/Course";
+import { Semester } from "$src/models";
 
 @Table({ tableName: "Teachers", timestamps: true })
 export class Teacher extends Model<Teacher> {
@@ -55,6 +56,13 @@ export class Teacher extends Model<Teacher> {
 
   @BelongsTo(() => Course, "courseUuid")
   public course: Course;
+
+  @ForeignKey(() => Semester)
+  @Column({ allowNull: false, type: UUID })
+  public semesterUuid: string;
+
+  @BelongsTo(() => Semester, "semesterUuid")
+  public semester: Semester;
 
   @CreatedAt
   @Column

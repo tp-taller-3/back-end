@@ -31,7 +31,8 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
       if (isEvaluatedElementATeacher(answer[answersCsvColumns.EvaluatedElement])) {
         teacher = await getOrCreateTeacherByFullName(
           answer[answersCsvColumns.EvaluatedElement],
-          course
+          course,
+          semester
         );
       }
       const question = await getOrCreateQuestion(
@@ -55,7 +56,11 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
       savedAnswers.add(answerEntity.uuid);
     }
     for (const teacherRow of teachers) {
-      const teacher = await getOrCreateTeacherByFullName(teacherRow[teachersCsvColumns.Name], null);
+      const teacher = await getOrCreateTeacherByFullName(
+        teacherRow[teachersCsvColumns.Name],
+        null,
+        semester
+      );
       teacher.dni = teacherRow[teachersCsvColumns.Dni];
       await TeacherRepository.save(teacher);
       savedTeachers.add(teacher.uuid);
@@ -156,13 +161,18 @@ const getOrCreateCourseByName = async (name: string, semester: Semester) => {
   return course;
 };
 
-const getOrCreateTeacherByFullName = async (fullName: string, course: Course | null) => {
+const getOrCreateTeacherByFullName = async (
+  fullName: string,
+  course: Course | null,
+  semester: Semester
+) => {
   let teacher = await TeacherRepository.findByFullNameIfExists(fullName);
   if (!teacher) {
     teacher = new Teacher();
     teacher.name = getNameFromFullName(fullName);
     teacher.role = getTeacherRoleFromFullName(fullName);
     teacher.fullName = fullName;
+    teacher.semesterUuid = semester.uuid;
     if (course) {
       teacher.course = course;
       teacher.courseUuid = course.uuid;
