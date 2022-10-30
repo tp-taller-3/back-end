@@ -1,6 +1,7 @@
 import { Question } from "./Model";
 import { QueryTypes } from "sequelize";
 import { Database } from "$config";
+import { Transaction } from "sequelize";
 
 export const QuestionRepository = {
   findByCourseUuid: ({
@@ -36,5 +37,33 @@ export const QuestionRepository = {
         model: Question,
         mapToModel: true
       }
-    )
+    ),
+  save: (question: Question, transaction?: Transaction) => question.save({ transaction }),
+  findByCourseTeacherCategoryAndQuestionText: async (
+    questionText: string,
+    category: string,
+    teacherUuid: string | null,
+    courseUuid: string
+  ) =>
+    Question.findOne({
+      where: {
+        questionText: questionText,
+        category: category,
+        teacherUuid: teacherUuid,
+        courseUuid: courseUuid
+      }
+    }),
+  findByCourseCategoryAndQuestionText: async (
+    questionText: string,
+    category: string,
+    courseUuid: string
+  ) =>
+    Question.findOne({
+      where: {
+        questionText: questionText,
+        category: category,
+        courseUuid: courseUuid
+      }
+    }),
+  deleteById: (uuid: string) => Question.destroy({ where: { uuid: uuid } })
 };

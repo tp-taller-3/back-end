@@ -1,43 +1,48 @@
 import { parseCsv } from "$src/util";
 import _ from "lodash";
-import { CsvUploadControllerErrorCode } from "./CsvUploadControllerErrorCodes";
-
-const answersCSV = "answersCSV";
-const answersCSVColumns = [
-  "Encuesta",
-  "Concepto Evaluado",
-  "Elemento evaluado",
-  "Bloque",
-  "Código de Pregunta",
-  "Pregunta",
-  "Valor de Respuesta",
-  "Usuario",
-  "Respondido por",
-  "Código del elemento"
-];
-const teachersCSV = "teachersCSV";
-const teachersCSVColumns = ["DNI", "Nombre"];
+import { answersCsvColumns, csvFileName, teachersCsvColumns } from "../csvConstants";
+import { CsvUploadErrorCodes } from "../csvUploadErrorCodes";
+import { csvBulkUpsert } from "../service";
 
 export const csvUploadHandler = async (req, res) => {
   // Check admin here...
   try {
     checkForMissingFiles(
-      [answersCSV, teachersCSV],
+      [csvFileName.Answers, csvFileName.Teachers],
       Object.keys(req.files === undefined ? {} : req.files)
     );
-    ValidateBodyFields(req.body);
+    validateSemester(req.body.semester);
+    validateYear(req.body.year);
   } catch (err) {
     return res.status(400).send({ error: err });
   }
+  let answers = [];
+  let teachers = [];
   try {
-    readRecords(req.files[answersCSV].data, answersCSVColumns, answersCSV);
-    readRecords(req.files[teachersCSV].data, teachersCSVColumns, teachersCSV);
-    return res.status(201).send({
-      success: true
-    });
+    answers = readRecords(
+      req.files[csvFileName.Answers].data,
+      Object.values(answersCsvColumns),
+      csvFileName.Answers
+    );
+    teachers = readRecords(
+      req.files[csvFileName.Teachers].data,
+      Object.values(teachersCsvColumns),
+      csvFileName.Teachers
+    );
   } catch (err) {
     return res.status(422).send({ error: err });
   }
+  try {
+    await csvBulkUpsert(answers, teachers, Number(req.body.year), Number(req.body.semester));
+  } catch (err) {
+    if (Object.values(CsvUploadErrorCodes).includes(err.code)) {
+      return res.status(422).send({ error: err });
+    }
+    return res.status(500).send({ error: err });
+  }
+  return res.status(201).send({
+    success: true
+  });
 };
 
 const readRecords = (input: Buffer, expectedColumnNames: string[], fileName: string) => {
@@ -54,30 +59,32 @@ const checkForMissingFiles = (expectedFiles: string[], actualFiles: string[]) =>
   const extraFiles = _.difference(actualFiles, expectedFiles);
   if (missingFiles.length !== 0 || extraFiles.length !== 0) {
     throw {
-      code: CsvUploadControllerErrorCode.MissingFile,
+      code: CsvUploadErrorCodes.MissingFile,
       missingFiles: missingFiles,
       extraFiles: extraFiles
     };
   }
 };
 
-const ValidateBodyFields = body => {
+const validateSemester = semester => {
   const validSemesters = ["1", "2"];
-  if (!validSemesters.includes(body.semester)) {
+  if (!validSemesters.includes(semester)) {
     throw {
-      code: CsvUploadControllerErrorCode.InvalidField,
+      code: CsvUploadErrorCodes.InvalidField,
       field: "semester",
       expected: validSemesters,
-      actual: body.semester === undefined ? "" : body.semester
+      actual: semester === undefined ? "" : semester
     };
   }
-  // Check if year is current or before maybe (?)
-  if (isNaN(body.year)) {
+};
+
+const validateYear = year => {
+  if (isNaN(year)) {
     throw {
-      code: CsvUploadControllerErrorCode.InvalidField,
+      code: CsvUploadErrorCodes.InvalidField,
       field: "year",
       expected: "A valid year",
-      actual: body.year === undefined ? "" : body.year
+      actual: year === undefined ? "" : year
     };
   }
 };
