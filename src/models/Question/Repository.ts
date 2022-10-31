@@ -38,6 +38,22 @@ export const QuestionRepository = {
         mapToModel: true
       }
     ),
+  deleteBySemesterUuid: (semesterUuid: string, transaction: Transaction) => {
+    Database.sequelize.query(
+      `
+        DELETE
+        FROM "Questions" 
+        WHERE "Questions"."courseUuid" IN (SELECT "Courses"."uuid"
+                                           FROM "Courses" 
+                                           WHERE "Courses"."semesterUuid" = '${semesterUuid}')
+      `,
+      {
+        type: QueryTypes.DELETE,
+        model: Question,
+        transaction: transaction
+      }
+    );
+  },
   save: (question: Question, transaction?: Transaction) => question.save({ transaction }),
   findByCourseTeacherCategoryAndQuestionText: async (
     questionText: string,

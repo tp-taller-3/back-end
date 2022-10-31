@@ -12,5 +12,6 @@ export const SemesterRepository = {
     if (!semester) throw new SemesterNotFound(uuid);
     return semester;
   },
-  deleteById: (uuid: string) => Semester.destroy({ where: { uuid: uuid } })
+  deleteById: (uuid: string, transaction?: Transaction) =>
+    Semester.destroy({ where: { uuid: uuid }, transaction: transaction })
 };
