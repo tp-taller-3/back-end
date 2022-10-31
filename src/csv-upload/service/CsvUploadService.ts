@@ -23,16 +23,15 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
     await SemesterRepository.save(semester);
     savedSemesters.add(semester.uuid);
     for (const answer of answers) {
-      const course = await getOrCreateCourseByName(
+      const course = await getOrCreateCourseByNameAndSemester(
         answer[answersCsvColumns.EvaluatedConcept],
         semester
       );
       let teacher;
       if (isEvaluatedElementATeacher(answer[answersCsvColumns.EvaluatedElement])) {
-        teacher = await getOrCreateTeacherByFullName(
+        teacher = await getOrCreateTeacherByFullNameAndCourse(
           answer[answersCsvColumns.EvaluatedElement],
-          course,
-          semester
+          course
         );
       }
       const question = await getOrCreateQuestion(
@@ -56,9 +55,8 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
       savedAnswers.add(answerEntity.uuid);
     }
     for (const teacherRow of teachers) {
-      const teacher = await getOrCreateTeacherByFullName(
+      const teacher = await getTeacherByFullNameAndSemester(
         teacherRow[teachersCsvColumns.Name],
-        null,
         semester
       );
       teacher.dni = teacherRow[teachersCsvColumns.Dni];
@@ -150,8 +148,8 @@ const getOrCreateSemester = async (year: number, semesterNumber: number) => {
   return semester;
 };
 
-const getOrCreateCourseByName = async (name: string, semester: Semester) => {
-  let course = await CourseRepository.findByCourseNameIfExists(name);
+const getOrCreateCourseByNameAndSemester = async (name: string, semester: Semester) => {
+  let course = await CourseRepository.findByCourseNameAndSemesterIfExists(name, semester.uuid);
   if (!course) {
     course = new Course();
     course.name = name;
@@ -161,22 +159,23 @@ const getOrCreateCourseByName = async (name: string, semester: Semester) => {
   return course;
 };
 
-const getOrCreateTeacherByFullName = async (
-  fullName: string,
-  course: Course | null,
-  semester: Semester
-) => {
-  let teacher = await TeacherRepository.findByFullNameIfExists(fullName);
+const getOrCreateTeacherByFullNameAndCourse = async (fullName: string, course: Course) => {
+  let teacher = await TeacherRepository.findByFullNameAndCourseUuidIfExists(fullName, course.uuid);
   if (!teacher) {
     teacher = new Teacher();
     teacher.name = getNameFromFullName(fullName);
     teacher.role = getTeacherRoleFromFullName(fullName);
     teacher.fullName = fullName;
-    teacher.semesterUuid = semester.uuid;
-    if (course) {
-      teacher.course = course;
-      teacher.courseUuid = course.uuid;
-    }
+    teacher.course = course;
+    teacher.courseUuid = course.uuid;
+  }
+  return teacher;
+};
+
+const getTeacherByFullNameAndSemester = async (fullName: string, semester: Semester) => {
+  const teacher = await TeacherRepository.findByFullNameAndSemesterUuid(fullName, semester.uuid);
+  if (!teacher) {
+    throw { code: CsvUploadErrorCodes.TeacherWithoutCourse, fullName: fullName };
   }
   return teacher;
 };
