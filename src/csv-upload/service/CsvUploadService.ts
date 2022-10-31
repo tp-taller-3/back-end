@@ -30,7 +30,7 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
         semester
       );
       let teacher;
-      if (isEvaluatedElementATeacher(answer[answersCsvColumns.EvaluatedElement], i, file)) {
+      if (isEvaluatedElementATeacher(answer[answersCsvColumns.Block])) {
         teacher = await getOrCreateTeacherByFullNameAndCourse(
           answer[answersCsvColumns.EvaluatedElement],
           course,
@@ -216,15 +216,6 @@ const getNameFromFullName = (fullName: string, line: number, file: string) => {
 
 const getTeacherRoleFromFullName = (fullName: string, line: number, file: string) => {
   const role = fullName.substring(fullName.indexOf("(") + 1, fullName.indexOf(")"));
-  if (!role) {
-    throw {
-      code: CsvUploadErrorCodes.UnrecognizedTeacherRole,
-      fullName: fullName,
-      role: role,
-      line: line,
-      file: file
-    };
-  }
   switch (role) {
     case "Ayudante 1ro/a":
       return TeacherRole.ayudante;
@@ -243,19 +234,14 @@ const getTeacherRoleFromFullName = (fullName: string, line: number, file: string
   }
 };
 
-const isEvaluatedElementATeacher = (evaluatedElement: string, line: number, file: string) => {
-  try {
-    getTeacherRoleFromFullName(evaluatedElement, line, file);
-    return true;
-  } catch (err) {
-    return false;
-  }
+const isEvaluatedElementATeacher = (category: string) => {
+  return category === "CUERPO DOCENTE - Individual";
 };
 
 const isPublic = (teacher: Teacher, category: string, answerValue: string) => {
   return (
     teacher === undefined &&
-    category !== "CUERPO DOCENTE" &&
+    category !== "CUERPO DOCENTE - Individual" &&
     PUBLIC_ANSWERS_WHITELIST.includes(answerValue)
   );
 };
