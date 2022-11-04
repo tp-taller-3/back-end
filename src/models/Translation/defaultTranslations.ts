@@ -906,5 +906,8 @@ export const defaultTranslations = {
     year: "Año",
     answersCSV: "Respuestas de encuestas",
     teachersCSV: "Docentes"
+  },
+  deleteSemester: {
+    SemesterNotFoundErrorMessage: "El semestre ingresado no existe"
   }
 };

@@ -8,7 +8,7 @@ import { Semester, SemesterRepository } from "$models/Semester";
 import { Teacher } from "$models/Teacher";
 import { TeacherRepository } from "$models/Teacher/Repository";
 import { TeacherRole } from "$models/TeacherRole";
-import { answersCsvColumns, teachersCsvColumns } from "../csvConstants";
+import { answersCsvColumns, csvFileName, teachersCsvColumns } from "../csvConstants";
 import { CsvUploadErrorCodes } from "../csvUploadErrorCodes";
 import { PUBLIC_ANSWERS_WHITELIST } from "./PublicAnswersWhitelist";
 
@@ -22,17 +22,20 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
     const semester = await getOrCreateSemester(year, semesterNumber);
     await SemesterRepository.save(semester);
     savedSemesters.add(semester.uuid);
-    for (const answer of answers) {
-      const course = await getOrCreateCourseByName(
+    for (let i = 0; i < answers.length; i++) {
+      const answer = answers[i];
+      const file = csvFileName.Answers;
+      const course = await getOrCreateCourseByNameAndSemester(
         answer[answersCsvColumns.EvaluatedConcept],
         semester
       );
       let teacher;
-      if (isEvaluatedElementATeacher(answer[answersCsvColumns.EvaluatedElement])) {
-        teacher = await getOrCreateTeacherByFullName(
+      if (isEvaluatedElementATeacher(answer[answersCsvColumns.Block])) {
+        teacher = await getOrCreateTeacherByFullNameAndCourse(
           answer[answersCsvColumns.EvaluatedElement],
           course,
-          semester
+          i,
+          file
         );
       }
       const question = await getOrCreateQuestion(
@@ -55,13 +58,14 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
       await AnswerRepository.save(answerEntity);
       savedAnswers.add(answerEntity.uuid);
     }
-    for (const teacherRow of teachers) {
-      const teacher = await getOrCreateTeacherByFullName(
-        teacherRow[teachersCsvColumns.Name],
-        null,
-        semester
+    for (let i = 0; i < teachers.length; i++) {
+      const teacher = await getTeacherByFullNameAndSemester(
+        teachers[i][teachersCsvColumns.Name],
+        semester,
+        i,
+        csvFileName.Teachers
       );
-      teacher.dni = teacherRow[teachersCsvColumns.Dni];
+      teacher.dni = teachers[i][teachersCsvColumns.Dni];
       await TeacherRepository.save(teacher);
       savedTeachers.add(teacher.uuid);
     }
@@ -150,8 +154,8 @@ const getOrCreateSemester = async (year: number, semesterNumber: number) => {
   return semester;
 };
 
-const getOrCreateCourseByName = async (name: string, semester: Semester) => {
-  let course = await CourseRepository.findByCourseNameIfExists(name);
+const getOrCreateCourseByNameAndSemester = async (name: string, semester: Semester) => {
+  let course = await CourseRepository.findByCourseNameAndSemesterIfExists(name, semester.uuid);
   if (!course) {
     course = new Course();
     course.name = name;
@@ -161,35 +165,56 @@ const getOrCreateCourseByName = async (name: string, semester: Semester) => {
   return course;
 };
 
-const getOrCreateTeacherByFullName = async (
+const getOrCreateTeacherByFullNameAndCourse = async (
   fullName: string,
-  course: Course | null,
-  semester: Semester
+  course: Course,
+  line: number,
+  file: string
 ) => {
-  let teacher = await TeacherRepository.findByFullNameIfExists(fullName);
+  let teacher = await TeacherRepository.findByFullNameAndCourseUuidIfExists(fullName, course.uuid);
   if (!teacher) {
     teacher = new Teacher();
-    teacher.name = getNameFromFullName(fullName);
-    teacher.role = getTeacherRoleFromFullName(fullName);
+    teacher.name = getNameFromFullName(fullName, line, file);
+    teacher.role = getTeacherRoleFromFullName(fullName, line, file);
     teacher.fullName = fullName;
-    teacher.semesterUuid = semester.uuid;
-    if (course) {
-      teacher.course = course;
-      teacher.courseUuid = course.uuid;
-    }
+    teacher.course = course;
+    teacher.courseUuid = course.uuid;
   }
   return teacher;
 };
 
-const getNameFromFullName = (fullName: string) => {
+const getTeacherByFullNameAndSemester = async (
+  fullName: string,
+  semester: Semester,
+  line: number,
+  file: string
+) => {
+  const teacher = await TeacherRepository.findByFullNameAndSemesterUuid(fullName, semester.uuid);
+  if (!teacher) {
+    throw {
+      code: CsvUploadErrorCodes.TeacherWithoutCourse,
+      fullName: fullName,
+      line: line,
+      file: file
+    };
+  }
+  return teacher;
+};
+
+const getNameFromFullName = (fullName: string, line: number, file: string) => {
   const endIndex = fullName.indexOf("(") - 1; // There is a space before the '('
   if (endIndex < 0) {
-    throw { code: CsvUploadErrorCodes.MissingRoleOnFullname, fullName: fullName };
+    throw {
+      code: CsvUploadErrorCodes.MissingRoleOnFullname,
+      fullName: fullName,
+      line: line,
+      file: file
+    };
   }
   return fullName.substring(0, endIndex);
 };
 
-const getTeacherRoleFromFullName = (fullName: string) => {
+const getTeacherRoleFromFullName = (fullName: string, line: number, file: string) => {
   const role = fullName.substring(fullName.indexOf("(") + 1, fullName.indexOf(")"));
   switch (role) {
     case "Ayudante 1ro/a":
@@ -199,23 +224,24 @@ const getTeacherRoleFromFullName = (fullName: string) => {
     case "Titular":
       return TeacherRole.titular;
     default:
-      throw { code: CsvUploadErrorCodes.UnrecognizedTeacherRole, fullName: fullName, role: role };
+      throw {
+        code: CsvUploadErrorCodes.UnrecognizedTeacherRole,
+        fullName: fullName,
+        role: role,
+        line: line,
+        file: file
+      };
   }
 };
 
-const isEvaluatedElementATeacher = (evaluatedElement: string) => {
-  try {
-    getTeacherRoleFromFullName(evaluatedElement);
-    return true;
-  } catch (err) {
-    return false;
-  }
+const isEvaluatedElementATeacher = (category: string) => {
+  return category === "CUERPO DOCENTE - Individual";
 };
 
 const isPublic = (teacher: Teacher, category: string, answerValue: string) => {
   return (
     teacher === undefined &&
-    category !== "CUERPO DOCENTE" &&
+    category !== "CUERPO DOCENTE - Individual" &&
     PUBLIC_ANSWERS_WHITELIST.includes(answerValue)
   );
 };
