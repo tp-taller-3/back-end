@@ -7,10 +7,7 @@ import { csvBulkUpsert } from "../service";
 export const csvUploadHandler = async (req, res) => {
   // Check admin here...
   try {
-    checkForMissingFiles(
-      [csvFileName.Answers, csvFileName.Teachers],
-      Object.keys(req.files === undefined ? {} : req.files)
-    );
+    checkForMissingFiles([csvFileName.Answers, csvFileName.Teachers], Object.keys(req.files || {}));
     validateSemester(req.body.semester);
     validateYear(req.body.year);
   } catch (err) {
@@ -47,7 +44,7 @@ export const csvUploadHandler = async (req, res) => {
 
 const readRecords = (input: Buffer, expectedColumnNames: string[], fileName: string) => {
   try {
-    return parseCsv(input, expectedColumnNames);
+    return parseCsv(input, expectedColumnNames, fileName);
   } catch (err) {
     err.file = fileName;
     throw err;
@@ -72,7 +69,7 @@ const validateSemester = semester => {
     throw {
       code: CsvUploadErrorCodes.InvalidField,
       field: "semester",
-      expected: validSemesters,
+      expected: validSemesters.join(" o "),
       actual: semester === undefined ? "" : semester
     };
   }
@@ -83,7 +80,7 @@ const validateYear = year => {
     throw {
       code: CsvUploadErrorCodes.InvalidField,
       field: "year",
-      expected: "A valid year",
+      expected: "Un año válido",
       actual: year === undefined ? "" : year
     };
   }

@@ -1,3 +1,7 @@
+import { CsvUploadErrorCodes } from "$src/csv-upload/csvUploadErrorCodes";
+import { csvFileName } from "$src/csv-upload/csvConstants";
+import { CsvErrorCode } from "$src/util/csvParser/CsvErrors";
+
 export const defaultTranslations = {
   titleBar: {
     title: "Encuestas de Cursos FIUBA"
@@ -904,8 +908,28 @@ export const defaultTranslations = {
     1: "1er cuatrimestre",
     2: "2do cuatrimestre",
     year: "Año",
-    answersCSV: "Respuestas de encuestas",
-    teachersCSV: "Docentes"
+    success: "Carga exitosa",
+    unknownError: "Error desconocido. Reintentar más adelante o consultar a ayuda@fi.uba.ar",
+    checkResults: "Consultar resultados",
+    [csvFileName.Answers]: "Respuestas de encuestas",
+    [csvFileName.Teachers]: "Docentes",
+    noFiles: "(ninguno)",
+    [CsvUploadErrorCodes.MissingFile]:
+      "Archivos faltantes: <%= missingFiles %> — Archivos sobrantes: <%= extraFiles %>",
+    [CsvUploadErrorCodes.InvalidField]:
+      'Campo inválido: "<%= field %>". Se esperaba <%= expected %>, se obtuvo "<%= actual %>"',
+    [CsvUploadErrorCodes.UnrecognizedTeacherRole]:
+      'Error en archivo "<%= file %>" (fila <%= line %>, columna "Elemento evaluado"): del valor "<%= fullName %>" no se pudo reconocer si la/el docente es "Titular", "Jefe/a Trabajos Practicos" o "Ayudante 1ro/a"',
+    [CsvUploadErrorCodes.MissingRoleOnFullname]:
+      'Error en archivo "<%= file %>" (fila <%= line %>, columna "Elemento evaluado"): del valor "<%= fullName %>" no se encontró aclaración en paréntesis sobre si el docente es "Titular", "Jefe/a Trabajos Practicos" o "Ayudante 1ro/a"',
+    [CsvUploadErrorCodes.TeacherWithoutCourse]:
+      'No se encontró en el archivo "Respuestas de encuestas" mención del docente "<%= fullName %>", presente en la fila <%= line %> del archivo "<%= file %>"',
+    noColumns: "(ninguna)",
+    [CsvErrorCode.MissingColumn]:
+      'En archivo "<%= file %>": columnas faltantes: <%= missingColumns %> — columnas sobrantes: <%= extraColumns %>',
+    [CsvErrorCode.InvalidRecordLength]:
+      'Error en archivo "<%= file %>" (fila <%= line %>): se esperaban <%= expected_number_of_columns %> columnas y se obtuvieron <%= record_number_of_columns %>',
+    [CsvErrorCode.UnrecognizedError]: 'Error desconocido en el archivo "<%= file %>": <%= error %>'
   },
   deleteSemester: {
     SemesterNotFoundErrorMessage: "El semestre ingresado no existe"
