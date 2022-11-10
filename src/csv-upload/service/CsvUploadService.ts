@@ -183,6 +183,8 @@ const getOrCreateTeacherByFullNameAndCourse = async (
   return teacher;
 };
 
+const formatLine = (line: number) => line + 2;
+
 const getTeacherByFullNameAndSemester = async (
   fullName: string,
   semester: Semester,
@@ -194,7 +196,7 @@ const getTeacherByFullNameAndSemester = async (
     throw {
       code: CsvUploadErrorCodes.TeacherWithoutCourse,
       fullName: fullName,
-      line: line,
+      line: formatLine(line),
       file: file
     };
   }
@@ -207,7 +209,7 @@ const getNameFromFullName = (fullName: string, line: number, file: string) => {
     throw {
       code: CsvUploadErrorCodes.MissingRoleOnFullname,
       fullName: fullName,
-      line: line,
+      line: line + 2,
       file: file
     };
   }
@@ -228,7 +230,7 @@ const getTeacherRoleFromFullName = (fullName: string, line: number, file: string
         code: CsvUploadErrorCodes.UnrecognizedTeacherRole,
         fullName: fullName,
         role: role,
-        line: line,
+        line: line + 2,
         file: file
       };
   }

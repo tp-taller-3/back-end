@@ -32,10 +32,6 @@ jobs:
         run: yarn db:drop || true && yarn db:create && yarn db:migrate
       - name: Run linter
         run: yarn lint
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Trigger deploy workflow
         if: success() && contains('refs/heads/staging refs/heads/production', github.ref)
         uses: peter-evans/repository-dispatch@v1
