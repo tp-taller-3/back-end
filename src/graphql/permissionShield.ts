@@ -16,6 +16,7 @@ import { companyNotificationPermissions } from "./CompanyNotification";
 import { applicantNotificationPermissions } from "./ApplicantNotification";
 import { adminNotificationPermissions } from "./AdminNotification";
 import { companyUserPermissions } from "./CompanyUser";
+import { semesterPermissions } from "./Semester";
 
 const permissions = merge(
   offerPermissions,
@@ -31,7 +32,8 @@ const permissions = merge(
   companyNotificationPermissions,
   applicantNotificationPermissions,
   adminNotificationPermissions,
-  companyUserPermissions
+  companyUserPermissions,
+  semesterPermissions
 );
 
 export const permissionShield = shield(permissions, {

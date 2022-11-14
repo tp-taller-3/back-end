@@ -1,3 +1,5 @@
+import { CookieConfig } from "$config/Cookie";
+import { JWT } from "$src/JWT";
 import { parseCsv } from "$src/util";
 import _ from "lodash";
 import { answersCsvColumns, csvFileName, teachersCsvColumns } from "../csvConstants";
@@ -5,7 +7,11 @@ import { CsvUploadErrorCodes } from "../csvUploadErrorCodes";
 import { csvBulkUpsert } from "../service";
 
 export const csvUploadHandler = async (req, res) => {
-  // Check admin here...
+  const token = req.cookies[CookieConfig.cookieName] || "";
+  const currentUser = JWT.decodeToken(token);
+  if (currentUser === undefined || !currentUser.getAdminRole()) {
+    return res.status(403).send({ error: { code: CsvUploadErrorCodes.UserIsNotAdmin } });
+  }
   try {
     checkForMissingFiles([csvFileName.Answers, csvFileName.Teachers], Object.keys(req.files || {}));
     validateSemester(req.body.semester);
