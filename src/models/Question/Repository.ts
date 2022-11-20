@@ -26,6 +26,7 @@ export const QuestionRepository = {
                   OR "QuestionTeacher"."dni" = '${currentUserDNI}'
                   OR ("CourseTeacher"."role" = 'jtp' AND "CourseTeacher"."dni" = '${currentUserDNI}' AND "QuestionTeacher"."role" = 'ayudante')
                   OR ("CourseTeacher"."role" = 'titular' AND "CourseTeacher"."dni" = '${currentUserDNI}')
+                  OR EXISTS (SELECT 1 FROM "Admins" INNER JOIN "Users" ON "Admins"."userUuid" = "Users"."uuid" WHERE "Users"."dni" = '${currentUserDNI}')
                 `
                   : ""
               }
