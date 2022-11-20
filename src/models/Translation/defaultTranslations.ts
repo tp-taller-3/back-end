@@ -422,7 +422,8 @@ export const defaultTranslations = {
     questionsTitle: "Consultas o problemas en el sitio:"
   },
   applicantLogin: {
-    title: "Ingresá tus credenciales de FIUBA",
+    title:
+      "Ingresá tus credenciales de FIUBA\n\nSegún tu cargo docente se va a mostrar información adicional",
     dni: "DNI",
     signup: "Crear tu cuenta",
     recoverPassword: "Recuperar contraseña",
@@ -446,6 +447,7 @@ export const defaultTranslations = {
     createOffer: "Publicar Oferta",
     tasks: "Tareas Pendientes",
     csvUpload: "Cargar CSV",
+    logIn: "Iniciar sesión",
     logOut: "Cerrar sesión",
     myProfile: "Mi perfil",
     myCompanyProfile: "Mi empresa",
