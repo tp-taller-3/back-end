@@ -222,6 +222,11 @@ export const defaultTranslations = {
     deleteOnlyCompanyUserError: "No puede borrar este usuario, es el único de su empresa",
     submit: "Guardar"
   },
+  deleteSemesterPageInfo: {
+    title: "Eliminar las respuestas del cuatrimestre:",
+    description: "Se perderan los datos cargados de esta encuesta.",
+    submit: "Eliminar"
+  },
   deactivateAdminAccount: {
     title: "Desactivar la cuenta del administrador:",
     description:

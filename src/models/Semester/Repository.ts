@@ -15,5 +15,6 @@ export const SemesterRepository = {
     if (!semester) throw new SemesterNotFound(SemesterUuid);
 
     return semester;
-  }
+  },
+  delete: (semester: Semester) => semester.destroy()
 };
