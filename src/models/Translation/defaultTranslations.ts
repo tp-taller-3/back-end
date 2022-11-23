@@ -442,6 +442,7 @@ export const defaultTranslations = {
     createOffer: "Publicar Oferta",
     tasks: "Tareas Pendientes",
     csvUpload: "Cargar CSV",
+    deleteSemester: "Eliminar Cuatrimestre",
     logOut: "Cerrar sesión",
     myProfile: "Mi perfil",
     myCompanyProfile: "Mi empresa",
@@ -572,6 +573,9 @@ export const defaultTranslations = {
     graduados: "Graduados",
     extension: "Extensión"
   },
+  adminSemesterListMainTitle: {
+    title: "Administradores"
+  },
   adminStatus: {
     active: "Activa",
     deactivated: "Desactivada"
@@ -590,6 +594,9 @@ export const defaultTranslations = {
   },
   adminOfferListMainTitle: {
     title: "Ofertas de trabajo"
+  },
+  adminDeleteSemesterListMainTitle: {
+    title: "Cuatrimestres"
   },
   adminAdminListMainTitle: {
     title: "Administradores"
@@ -627,6 +634,9 @@ export const defaultTranslations = {
   adminCompanyDetail: {
     seeUsersButton: "Ver usuarios"
   },
+  deleteSemesterActions: {
+    deleteSemesterLinkTooltipMessage: "Eliminar Cuatrimestre"
+  },
   adminActions: {
     approve: "Aprobar",
     reject: "Rechazar",
@@ -659,6 +669,11 @@ export const defaultTranslations = {
   adminCompaniesContent: {
     yes: "Si",
     no: "No"
+  },
+  adminDeleteSemesterListHeader: {
+    year: "Año",
+    semesterNumber: "Cuatrimestre",
+    createdAt: "Fecha de registro"
   },
   adminAdminListHeader: {
     name: "Nombre",
