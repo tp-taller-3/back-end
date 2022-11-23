@@ -8,7 +8,7 @@ import { userMutations } from "./User";
 import { adminSettingsMutations } from "./AdminSettings";
 import { adminMutations } from "./Admin";
 import { companyUserMutations } from "./CompanyUser";
-import { semesterMutations } from "$graphql/Semester/Mutations";
+import { semesterMutations } from "./Semester";
 
 export const mutations = () =>
   merge(

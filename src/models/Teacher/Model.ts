@@ -3,14 +3,12 @@ import {
   Column,
   CreatedAt,
   ForeignKey,
-  Is,
   Model,
   Table,
   UpdatedAt
 } from "sequelize-typescript";
 import { ENUM, INTEGER, TEXT, UUID, UUIDV4 } from "sequelize";
 import { isUuid } from "../SequelizeModelValidators";
-import { validateIntegerInRange } from "validations-fiuba-course-admin";
 import { TeacherRole, teacherRoles } from "$models/TeacherRole";
 import { isTeacherRole } from "$models/SequelizeModelValidators/isTeacherRole";
 import { Course } from "$models/Course";
@@ -45,9 +43,8 @@ export class Teacher extends Model<Teacher> {
   })
   public fullName: string;
 
-  @Is("dni", validateIntegerInRange({ min: { value: 0, include: false } }))
   @Column({
-    allowNull: false,
+    allowNull: true,
     type: INTEGER
   })
   public dni: number;

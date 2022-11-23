@@ -1,4 +1,4 @@
-import { deleteSemester } from "$graphql/Semester/Mutations/getDeleteSemester";
+import { deleteSemester } from "./deleteSemester";
 
 export const semesterMutations = {
   deleteSemester

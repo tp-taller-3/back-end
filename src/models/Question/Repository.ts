@@ -1,6 +1,7 @@
 import { Question } from "./Model";
 import { QueryTypes } from "sequelize";
 import { Database } from "$config";
+import { Transaction } from "sequelize";
 
 export const QuestionRepository = {
   findByCourseUuid: ({
@@ -25,6 +26,7 @@ export const QuestionRepository = {
                   OR "QuestionTeacher"."dni" = '${currentUserDNI}'
                   OR ("CourseTeacher"."role" = 'jtp' AND "CourseTeacher"."dni" = '${currentUserDNI}' AND "QuestionTeacher"."role" = 'ayudante')
                   OR ("CourseTeacher"."role" = 'titular' AND "CourseTeacher"."dni" = '${currentUserDNI}')
+                  OR EXISTS (SELECT 1 FROM "Admins" INNER JOIN "Users" ON "Admins"."userUuid" = "Users"."uuid" WHERE "Users"."dni" = '${currentUserDNI}')
                 `
                   : ""
               }
@@ -36,5 +38,49 @@ export const QuestionRepository = {
         model: Question,
         mapToModel: true
       }
-    )
+    ),
+  deleteBySemesterUuid: (semesterUuid: string, transaction: Transaction) => {
+    Database.sequelize.query(
+      `
+        DELETE
+        FROM "Questions" 
+        WHERE "Questions"."courseUuid" IN (SELECT "Courses"."uuid"
+                                           FROM "Courses" 
+                                           WHERE "Courses"."semesterUuid" = '${semesterUuid}')
+      `,
+      {
+        type: QueryTypes.DELETE,
+        model: Question,
+        transaction: transaction
+      }
+    );
+  },
+  save: (question: Question, transaction?: Transaction) => question.save({ transaction }),
+  findByCourseTeacherCategoryAndQuestionText: async (
+    questionText: string,
+    category: string,
+    teacherUuid: string | null,
+    courseUuid: string
+  ) =>
+    Question.findOne({
+      where: {
+        questionText: questionText,
+        category: category,
+        teacherUuid: teacherUuid,
+        courseUuid: courseUuid
+      }
+    }),
+  findByCourseCategoryAndQuestionText: async (
+    questionText: string,
+    category: string,
+    courseUuid: string
+  ) =>
+    Question.findOne({
+      where: {
+        questionText: questionText,
+        category: category,
+        courseUuid: courseUuid
+      }
+    }),
+  deleteById: (uuid: string) => Question.destroy({ where: { uuid: uuid } })
 };
