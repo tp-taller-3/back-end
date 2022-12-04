@@ -946,6 +946,7 @@ export const defaultTranslations = {
       'Error en archivo "<%= file %>" (fila <%= line %>, columna "Elemento evaluado"): del valor "<%= fullName %>" no se encontró aclaración en paréntesis sobre si el docente es "Titular", "Jefe/a Trabajos Practicos" o "Ayudante 1ro/a"',
     [CsvUploadErrorCodes.TeacherWithoutCourse]:
       'No se encontró en el archivo "Respuestas de encuestas" mención del docente "<%= fullName %>", presente en la fila <%= line %> del archivo "<%= file %>"',
+    [CsvUploadErrorCodes.UserIsNotAdmin]: "Es necesario tener permisos de admin",
     noColumns: "(ninguna)",
     [CsvErrorCode.MissingColumn]:
       'En archivo "<%= file %>": columnas faltantes: <%= missingColumns %> — columnas sobrantes: <%= extraColumns %>',
