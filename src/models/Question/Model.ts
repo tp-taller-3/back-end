@@ -8,7 +8,14 @@ import {
   Table,
   UpdatedAt
 } from "sequelize-typescript";
-import { BOOLEAN, HasManyGetAssociationsMixin, TEXT, UUID, UUIDV4 } from "sequelize";
+import {
+  BOOLEAN,
+  HasManyGetAssociationsMixin,
+  HasOneGetAssociationMixin,
+  TEXT,
+  UUID,
+  UUIDV4
+} from "sequelize";
 import { isUuid } from "../SequelizeModelValidators";
 import { Course } from "$models/Course";
 import { Answer } from "$src/models";
@@ -49,6 +56,8 @@ export class Question extends Model<Question> {
 
   @BelongsTo(() => Teacher, "teacherUuid")
   public teacher: Teacher;
+
+  public getTeacher: HasOneGetAssociationMixin<Teacher>;
 
   @ForeignKey(() => Course)
   @Column({ allowNull: false, type: UUID })

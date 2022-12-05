@@ -25,6 +25,10 @@ export const GraphQLQuestion = new GraphQLObjectType<Question>({
       type: List(nonNull(GraphQLAnswer)),
       resolve: question => question.getAnswers()
     },
+    teacherName: {
+      type: GraphQLString,
+      resolve: async question => (await question.getTeacher())?.fullName
+    },
     updatedAt: {
       type: nonNull(GraphQLDateTime)
     },

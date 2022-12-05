@@ -23,51 +23,79 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
     await SemesterRepository.save(semester);
     savedSemesters.add(semester.uuid);
     for (let i = 0; i < answers.length; i++) {
-      const answer = answers[i];
-      const file = csvFileName.Answers;
-      const course = await getOrCreateCourseByNameAndSemester(
-        answer[answersCsvColumns.EvaluatedConcept],
-        semester
-      );
-      let teacher;
-      if (isEvaluatedElementATeacher(answer[answersCsvColumns.Block])) {
-        teacher = await getOrCreateTeacherByFullNameAndCourse(
-          answer[answersCsvColumns.EvaluatedElement],
-          course,
-          i,
-          file
+      try {
+        const answer = answers[i];
+        const file = csvFileName.Answers;
+        const course = await getOrCreateCourseByNameAndSemester(
+          answer[answersCsvColumns.EvaluatedConcept],
+          semester
         );
+        let teacher;
+        if (isEvaluatedElementATeacher(answer[answersCsvColumns.Block])) {
+          teacher = await getOrCreateTeacherByFullNameAndCourse(
+            answer[answersCsvColumns.EvaluatedElement],
+            course,
+            i,
+            file
+          );
+        }
+        const question = await getOrCreateQuestion(
+          answer[answersCsvColumns.Question],
+          answer[answersCsvColumns.Block],
+          teacher,
+          course,
+          answer[answersCsvColumns.AnswerValue]
+        );
+        const answerEntity = await getOrCreateAnswer(
+          question,
+          answer[answersCsvColumns.AnswerValue]
+        );
+        answerEntity.count += 1;
+        await CourseRepository.save(course);
+        savedCourses.add(course.uuid);
+        if (teacher) {
+          await TeacherRepository.save(teacher);
+          savedTeachers.add(teacher.uuid);
+        }
+        await QuestionRepository.save(question);
+        savedQuestions.add(question.uuid);
+        await AnswerRepository.save(answerEntity);
+        savedAnswers.add(answerEntity.uuid);
+      } catch (err) {
+        if (JSON.stringify(err) !== "{}") throw err;
+
+        throw {
+          code: CsvUploadErrorCodes.UnknownError,
+          message: err.toString(),
+          file: csvFileName.Answers,
+          line: formatLine(i)
+        };
       }
-      const question = await getOrCreateQuestion(
-        answer[answersCsvColumns.Question],
-        answer[answersCsvColumns.Block],
-        teacher,
-        course,
-        answer[answersCsvColumns.AnswerValue]
-      );
-      const answerEntity = await getOrCreateAnswer(question, answer[answersCsvColumns.AnswerValue]);
-      answerEntity.count += 1;
-      await CourseRepository.save(course);
-      savedCourses.add(course.uuid);
-      if (teacher) {
-        await TeacherRepository.save(teacher);
-        savedTeachers.add(teacher.uuid);
-      }
-      await QuestionRepository.save(question);
-      savedQuestions.add(question.uuid);
-      await AnswerRepository.save(answerEntity);
-      savedAnswers.add(answerEntity.uuid);
     }
     for (let i = 0; i < teachers.length; i++) {
-      const teacher = await getTeacherByFullNameAndSemester(
-        teachers[i][teachersCsvColumns.Name],
-        semester,
-        i,
-        csvFileName.Teachers
-      );
-      teacher.dni = teachers[i][teachersCsvColumns.Dni];
-      await TeacherRepository.save(teacher);
-      savedTeachers.add(teacher.uuid);
+      try {
+        const teacher = await getTeacherByFullNameAndSemester(
+          teachers[i][teachersCsvColumns.Name],
+          semester
+        );
+        if (teacher) {
+          const dni = Number(teachers[i][teachersCsvColumns.Dni]);
+          if (!isNaN(dni) && dni > 0 && dni < 2000000000) {
+            teacher.dni = dni;
+            await TeacherRepository.save(teacher);
+            savedTeachers.add(teacher.uuid);
+          }
+        }
+      } catch (err) {
+        if (JSON.stringify(err) !== "{}") throw err;
+
+        throw {
+          code: CsvUploadErrorCodes.UnknownError,
+          message: err.toString(),
+          file: csvFileName.Teachers,
+          line: formatLine(i)
+        };
+      }
     }
   } catch (err) {
     await rollbackCsv(savedSemesters, savedCourses, savedTeachers, savedQuestions, savedAnswers);
@@ -185,23 +213,8 @@ const getOrCreateTeacherByFullNameAndCourse = async (
 
 const formatLine = (line: number) => line + 2;
 
-const getTeacherByFullNameAndSemester = async (
-  fullName: string,
-  semester: Semester,
-  line: number,
-  file: string
-) => {
-  const teacher = await TeacherRepository.findByFullNameAndSemesterUuid(fullName, semester.uuid);
-  if (!teacher) {
-    throw {
-      code: CsvUploadErrorCodes.TeacherWithoutCourse,
-      fullName: fullName,
-      line: formatLine(line),
-      file: file
-    };
-  }
-  return teacher;
-};
+const getTeacherByFullNameAndSemester = (fullName: string, semester: Semester) =>
+  TeacherRepository.findByFullNameAndSemesterUuid(fullName, semester.uuid);
 
 const getNameFromFullName = (fullName: string, line: number, file: string) => {
   const endIndex = fullName.indexOf("(") - 1; // There is a space before the '('
@@ -221,8 +234,20 @@ const getTeacherRoleFromFullName = (fullName: string, line: number, file: string
   switch (role) {
     case "Ayudante 1ro/a":
       return TeacherRole.ayudante;
+    case "Ayudante de 1ra":
+      return TeacherRole.ayudante;
+    case "Ayudante 2do/a":
+      return TeacherRole.ayudante;
+    case "Ayudante de 1da":
+      return TeacherRole.ayudante;
+    case "Profesor/a Asociado/a":
+      return TeacherRole.asociado;
+    case "Profesor/a Adjunto/a":
+      return TeacherRole.adjunto;
     case "Jefe/a Trabajos Practicos":
       return TeacherRole.jtp;
+    case "Profesor/a Titular/a":
+      return TeacherRole.titular;
     case "Titular":
       return TeacherRole.titular;
     default:
