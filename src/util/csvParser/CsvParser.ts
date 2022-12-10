@@ -7,7 +7,8 @@ export const parseCsv = (input: Buffer, expectedColumnNames: string[], fileName:
   try {
     records = parse(input, {
       columns: true,
-      skip_empty_lines: true
+      skip_empty_lines: true,
+      bom: true
     });
   } catch (err) {
     if (err.code === "CSV_RECORD_INCONSISTENT_COLUMNS") {

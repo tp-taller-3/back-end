@@ -2,6 +2,7 @@ import { Question } from "./Model";
 import { QueryTypes } from "sequelize";
 import { Database } from "$config";
 import { Transaction } from "sequelize";
+import { TeacherRole } from "$models/TeacherRole";
 
 export const QuestionRepository = {
   findByCourseUuid: ({
@@ -24,8 +25,10 @@ export const QuestionRepository = {
                 currentUserDNI
                   ? `
                   OR "QuestionTeacher"."dni" = '${currentUserDNI}'
-                  OR ("CourseTeacher"."role" = 'jtp' AND "CourseTeacher"."dni" = '${currentUserDNI}' AND "QuestionTeacher"."role" = 'ayudante')
-                  OR ("CourseTeacher"."role" = 'titular' AND "CourseTeacher"."dni" = '${currentUserDNI}')
+                  OR ("CourseTeacher"."role" = '${TeacherRole.jtp}' AND "CourseTeacher"."dni" = '${currentUserDNI}' AND "QuestionTeacher"."role" IN ('${TeacherRole.ayudante}'))
+                  OR ("CourseTeacher"."role" = '${TeacherRole.adjunto}' AND "CourseTeacher"."dni" = '${currentUserDNI}' AND "QuestionTeacher"."role" IN ('${TeacherRole.ayudante}', '${TeacherRole.jtp}'))
+                  OR ("CourseTeacher"."role" = '${TeacherRole.asociado}' AND "CourseTeacher"."dni" = '${currentUserDNI}' AND "QuestionTeacher"."role" IN ('${TeacherRole.ayudante}', '${TeacherRole.jtp}', '${TeacherRole.adjunto}'))
+                  OR ("CourseTeacher"."role" = '${TeacherRole.titular}' AND "CourseTeacher"."dni" = '${currentUserDNI}')
                   OR EXISTS (SELECT 1 FROM "Admins" INNER JOIN "Users" ON "Admins"."userUuid" = "Users"."uuid" WHERE "Users"."dni" = '${currentUserDNI}')
                 `
                   : ""

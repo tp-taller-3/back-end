@@ -1,4 +1,4 @@
-DNI,Nombre
-111111,Charles Darwin (Ayudante 1ro/a)
-222222,Michael Faraday (Jefe/a Trabajos Practicos)
-333333,Albert Einstein (Titular)
+Nombre y Cargo,Tipo Documento,nro_documento
+111111,DNI,Charles Darwin (Ayudante 1ro/a)
+222222,DNI,Michael Faraday (Jefe/a Trabajos Practicos)
+333333,DNI,Albert Einstein (Titular)

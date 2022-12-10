@@ -17,6 +17,7 @@ export enum answersCsvColumns {
 }
 
 export enum teachersCsvColumns {
-  Dni = "DNI",
-  Name = "Nombre"
+  Name = "Nombre y Cargo",
+  DocumentKind = "Tipo Documento",
+  Dni = "nro_documento"
 }
