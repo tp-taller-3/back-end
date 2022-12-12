@@ -8,6 +8,7 @@ export const CourseRepository = {
   findByCourseNameAndSemesterIfExists: async (name: string, semesterUuid: string) =>
     Course.findOne({ where: { name: name, semesterUuid: semesterUuid } }),
   deleteById: (uuid: string) => Course.destroy({ where: { uuid: uuid } }),
+  countCourses: (semesterUuid: string) => Course.count({ where: { semesterUuid } }),
   deleteBySemesterUuid: (semesterUuid: string, transaction: Transaction) =>
     Course.destroy({ where: { semesterUuid: semesterUuid }, transaction: transaction })
 };

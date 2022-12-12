@@ -228,7 +228,8 @@ export const defaultTranslations = {
   },
   deleteSemesterPageInfo: {
     title: "Eliminar las respuestas del cuatrimestre:",
-    description: "Se perderan los datos cargados de esta encuesta.",
+    description:
+      "El cuatrimestre cuenta con respuestas de <%= courseCount %> cursos. Se perderan los datos cargados de esta encuesta.",
     submit: "Eliminar"
   },
   deactivateAdminAccount: {
