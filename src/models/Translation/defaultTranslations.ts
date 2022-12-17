@@ -932,6 +932,7 @@ export const defaultTranslations = {
     2: "2do cuatrimestre",
     year: "Año",
     success: "Carga exitosa",
+    spinner: "Procesando el archivo, esto podría llevar varios minutos.",
     unknownError: "Error desconocido. Reintentar más adelante o consultar a ayuda@fi.uba.ar",
     checkResults: "Consultar resultados",
     [csvFileName.Answers]: "Respuestas de encuestas",
