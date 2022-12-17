@@ -10,7 +10,7 @@ import { TeacherRepository } from "$models/Teacher/Repository";
 import { TeacherRole } from "$models/TeacherRole";
 import { answersCsvColumns, csvFileName, teachersCsvColumns } from "../csvConstants";
 import { CsvUploadErrorCodes } from "../csvUploadErrorCodes";
-import { PUBLIC_ANSWERS_WHITELIST } from "./PublicAnswersWhitelist";
+import { PRIVATE_QUESTIONS_LIST } from "./PrivateQuestionsList";
 
 export const csvBulkUpsert = async (answers, teachers, year: number, semesterNumber: number) => {
   const savedSemesters = new Set();
@@ -43,8 +43,7 @@ export const csvBulkUpsert = async (answers, teachers, year: number, semesterNum
           answer[answersCsvColumns.Question],
           answer[answersCsvColumns.Block],
           teacher,
-          course,
-          answer[answersCsvColumns.AnswerValue]
+          course
         );
         const answerEntity = await getOrCreateAnswer(
           question,
@@ -142,8 +141,7 @@ const getOrCreateQuestion = async (
   questionText: string,
   category: string,
   teacher: Teacher,
-  course: Course,
-  answerValue: string
+  course: Course
 ) => {
   let question = await QuestionRepository.findByCourseTeacherCategoryAndQuestionText(
     questionText,
@@ -153,7 +151,7 @@ const getOrCreateQuestion = async (
   );
   if (!question) {
     question = new Question();
-    question.isPublic = isPublic(teacher, category, answerValue);
+    question.isPublic = isPublic(questionText);
     question.questionText = questionText;
     question.category = category;
     if (teacher) {
@@ -162,12 +160,6 @@ const getOrCreateQuestion = async (
     }
     question.course = course;
     question.courseUuid = course.uuid;
-  }
-  if (question.isPublic) {
-    // Siempre rechequeo que siga siendo publica la pregunta segun todas las respuestas que me hicieron.
-    // Sino puede pasar el caso que en la primer fila que agarre sea una pregunta de campo libre me respondan un "Si",
-    // y pase el whitelist pero no era publica en realidad
-    question.isPublic = isPublic(teacher, category, answerValue);
   }
   return question;
 };
@@ -265,10 +257,6 @@ const isEvaluatedElementATeacher = (category: string) => {
   return category === "CUERPO DOCENTE - Individual";
 };
 
-const isPublic = (teacher: Teacher, category: string, answerValue: string) => {
-  return (
-    teacher === undefined &&
-    category !== "CUERPO DOCENTE - Individual" &&
-    PUBLIC_ANSWERS_WHITELIST.includes(answerValue)
-  );
+const isPublic = (questionText: string) => {
+  return !PRIVATE_QUESTIONS_LIST.includes(questionText);
 };
