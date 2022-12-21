@@ -23,7 +23,7 @@ export class Semester extends Model<Semester> {
 
   @Is(
     "semesterNumber",
-    validateIntegerInRange({ min: { value: 1, include: true }, max: { value: 2, include: true } })
+    validateIntegerInRange({ min: { value: 0, include: true }, max: { value: 2, include: true } })
   )
   @Column({
     allowNull: false,
