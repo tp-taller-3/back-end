@@ -928,6 +928,7 @@ export const defaultTranslations = {
   csvUpload: {
     title: "Cargar CSV",
     semester: "Cuatrimestre",
+    0: "Verano",
     1: "1er cuatrimestre",
     2: "2do cuatrimestre",
     year: "Año",

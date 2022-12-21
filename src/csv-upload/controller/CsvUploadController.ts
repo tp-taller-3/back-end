@@ -70,7 +70,7 @@ const checkForMissingFiles = (expectedFiles: string[], actualFiles: string[]) =>
 };
 
 const validateSemester = semester => {
-  const validSemesters = ["1", "2"];
+  const validSemesters = ["0", "1", "2"];
   if (!validSemesters.includes(semester)) {
     throw {
       code: CsvUploadErrorCodes.InvalidField,
